@@ -8,13 +8,22 @@ import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import by.ssrlab.fishpits.R
 
-open class BaseVM: ViewModel() {
+open class BaseUIVM: ViewModel() {
 
     private lateinit var navController: NavController
 
-    fun defineNavController(view: View){
+    fun defineNavController(view: View, bool: Boolean = false){
         navController = view.findNavController()
+
+        if (bool){
+            navController.backQueue.removeAt(0)
+            navController.backQueue.removeAt(0)
+        }
     }
+
+    fun getNavController() = navController
+
+    fun getBackStackSize() = navController.backQueue.size
 
     fun navigate(address: Int) {
         navigateTo(address)
@@ -28,8 +37,8 @@ open class BaseVM: ViewModel() {
                 anim {
                     enter = R.anim.nav_slide_in_left
                     popEnter = R.anim.nav_slide_in_left
-                    popExit = R.anim.nav_slide_out_left
-                    exit = R.anim.nav_slide_out_left
+                    popExit = R.anim.nav_slide_out_right
+                    exit = R.anim.nav_slide_out_right
                 }
             })
     }

@@ -7,10 +7,10 @@ import android.view.animation.AnimationUtils
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentPreviewBinding
-import by.ssrlab.fishpits.utils.base.BaseVM
+import by.ssrlab.fishpits.utils.base.BaseUIVM
 import kotlinx.coroutines.*
 
-class PreviewVM : BaseVM() {
+class PreviewUIVM : BaseUIVM() {
 
     private val mediaJob = Job()
     private val mediaScope = CoroutineScope(Dispatchers.Main + mediaJob)
@@ -38,6 +38,8 @@ class PreviewVM : BaseVM() {
     }
 
     fun hideUI(activity: MainActivity) {
+        activity.hideToolbar()
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             activity.window.decorView.windowInsetsController!!.hide(
                 android.view.WindowInsets.Type.statusBars()
