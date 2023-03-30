@@ -10,10 +10,16 @@
         android:label="PreviewFragment" >
         <action
             android:id="@+id/action_previewFragment_to_mapFragment"
-            app:destination="@id/mapFragment" />
+            app:destination="@id/map_fragment"
+            app:popUpToInclusive="false"
+            app:popUpToSaveState="false" />
     </fragment>
     <fragment
-        android:id="@+id/mapFragment"
+        android:id="@+id/map_fragment"
         android:name="by.ssrlab.fishpits.fragments.map.MapFragment"
-        android:label="MapFragment" />
+        android:label="" />
+    <fragment
+        android:id="@+id/tables_fragment"
+        android:name="by.ssrlab.fishpits.fragments.tables.TablesFragment"
+        android:label="" />
 </navigation>

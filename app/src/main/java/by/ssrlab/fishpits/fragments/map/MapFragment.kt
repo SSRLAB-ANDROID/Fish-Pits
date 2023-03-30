@@ -1,17 +1,22 @@
 package by.ssrlab.fishpits.fragments.map
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.databinding.FragmentMapBinding
+import by.ssrlab.fishpits.fragments.map.sub.PointDescriptionFragment
+import by.ssrlab.fishpits.utils.base.BaseFragment
+import by.ssrlab.fishpits.utils.vm.ui.MapUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapPointVM
 
-class MapFragment: Fragment() {
+class MapFragment: BaseFragment() {
 
     private lateinit var binding: FragmentMapBinding
+    override val uiVM: MapUIVM by activityViewModels()
+    private val pointVM: MapPointVM by activityViewModels() //Shared with bottom sheet
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,15 +26,27 @@ class MapFragment: Fragment() {
 
         binding = FragmentMapBinding.inflate(layoutInflater)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            (activity as MainActivity).window.decorView.windowInsetsController!!.show(
-                android.view.WindowInsets.Type.statusBars()
-            )
-        } else {
-            (activity as MainActivity).window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_VISIBLE
+        uiVM.setUI(activity as MainActivity)
+
+        binding.point.setOnClickListener {
+            PointDescriptionFragment().show(childFragmentManager, "pointDescription")
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        uiVM.clearMapHistory()
+
+        (activity as MainActivity).setBottomNav(uiVM.getNavController())
+        activityVM.setToolbarTitle("Map")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        uiVM.decreaseMapCounter()
     }
 }
