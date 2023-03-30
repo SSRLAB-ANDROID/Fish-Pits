@@ -1,4 +1,4 @@
-package by.ssrlab.fishpits.utils.vm
+package by.ssrlab.fishpits.utils.vm.ui
 
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 

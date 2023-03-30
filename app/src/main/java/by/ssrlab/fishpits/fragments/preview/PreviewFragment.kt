@@ -9,12 +9,12 @@ import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentPreviewBinding
 import by.ssrlab.fishpits.utils.base.BaseFragment
-import by.ssrlab.fishpits.utils.vm.PreviewUIVM
+import by.ssrlab.fishpits.utils.vm.ui.PreviewUIVM
 
 class PreviewFragment : BaseFragment() {
 
     private lateinit var binding: FragmentPreviewBinding
-    override val viewModel: PreviewUIVM by activityViewModels()
+    override val uiVM: PreviewUIVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +24,7 @@ class PreviewFragment : BaseFragment() {
 
         binding = FragmentPreviewBinding.inflate(layoutInflater)
 
-        viewModel.hideUI(activity as MainActivity)
+        uiVM.hideUI(activity as MainActivity)
 
         return binding.root
     }
@@ -32,8 +32,8 @@ class PreviewFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.startFragmentEnter(binding, requireContext()) {
-            viewModel.navigate(R.id.action_previewFragment_to_mapFragment)
+        uiVM.startFragmentEnter(binding, requireContext()) {
+            uiVM.navigate(R.id.action_previewFragment_to_mapFragment)
         }
     }
 }

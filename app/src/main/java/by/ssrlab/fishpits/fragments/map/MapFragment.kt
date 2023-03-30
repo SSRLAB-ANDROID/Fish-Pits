@@ -9,15 +9,13 @@ import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.databinding.FragmentMapBinding
 import by.ssrlab.fishpits.fragments.map.sub.PointDescriptionFragment
 import by.ssrlab.fishpits.utils.base.BaseFragment
-import by.ssrlab.fishpits.utils.vm.MapUIVM
-import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
-import by.ssrlab.fishpits.utils.vm.sub.map.MapPointVM
+import by.ssrlab.fishpits.utils.vm.ui.MapUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapPointVM
 
 class MapFragment: BaseFragment() {
 
     private lateinit var binding: FragmentMapBinding
-    override val viewModel: MapUIVM by activityViewModels()
-    private val activityVM: MainActivityVM by activityViewModels()
+    override val uiVM: MapUIVM by activityViewModels()
     private val pointVM: MapPointVM by activityViewModels() //Shared with bottom sheet
 
     override fun onCreateView(
@@ -28,7 +26,7 @@ class MapFragment: BaseFragment() {
 
         binding = FragmentMapBinding.inflate(layoutInflater)
 
-        viewModel.setUI(activity as MainActivity)
+        uiVM.setUI(activity as MainActivity)
 
         binding.point.setOnClickListener {
             PointDescriptionFragment().show(childFragmentManager, "pointDescription")
@@ -40,13 +38,15 @@ class MapFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as MainActivity).setBottomNav(viewModel.getNavController())
+        uiVM.clearMapHistory()
+
+        (activity as MainActivity).setBottomNav(uiVM.getNavController())
         activityVM.setToolbarTitle("Map")
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onDestroy() {
+        super.onDestroy()
 
-        viewModel.handlePopBack(activity as MainActivity)
+        uiVM.decreaseMapCounter()
     }
 }

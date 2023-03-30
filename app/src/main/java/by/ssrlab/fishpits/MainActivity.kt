@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
@@ -23,36 +22,55 @@ class MainActivity : AppCompatActivity() {
         toolbar = binding.toolbar
 
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         setContentView(binding.root)
 
-        activityVM.setToolbarObserver(this, toolbar)
+        binding.menuButton.setOnClickListener {
+            binding.drawer.openDrawer(binding.navigationAppDrawer)
+        }
+
+        activityVM.setObservers(this, binding)
     }
 
+    /**
+     * FOR UI
+     */
     fun handleOnBackPressed(bool: Boolean = false){
         activityVM.handleOnBackPressed(this, onBackPressedDispatcher, bool)
     }
 
+    /**
+     * FOR UI
+     */
     fun turnOnBottomNav(){
         activityVM.turnOnBottomNav(binding)
     }
 
+    /**
+     * FOR UI
+     */
     fun turnOffBottomNav(){
         activityVM.turnOffBottomNav(binding)
     }
 
+    /**
+     * FOR UI
+     */
     fun setBottomNav(navController: NavController){
-        activityVM.setBottomNavFunc(this, binding, navController)
+        activityVM.setNavFunc(binding, navController)
     }
 
+    /**
+     * FOR UI
+     */
     fun hideToolbar(){
         toolbar.visibility = View.GONE
     }
 
+    /**
+     * FOR UI
+     */
     fun showToolbar(){
         toolbar.visibility = View.VISIBLE
-    }
-
-    fun setToolbar(toolbar: Toolbar){
-        setSupportActionBar(toolbar)
     }
 }

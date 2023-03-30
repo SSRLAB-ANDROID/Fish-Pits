@@ -20,6 +20,6 @@
         android:label="" />
     <fragment
         android:id="@+id/tables_fragment"
-        android:name="by.ssrlab.fishpits.fragments.tabels.TablesFragment"
+        android:name="by.ssrlab.fishpits.fragments.tables.TablesFragment"
         android:label="" />
 </navigation>

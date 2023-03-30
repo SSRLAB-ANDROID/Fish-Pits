@@ -1,4 +1,4 @@
-package by.ssrlab.fishpits.utils.vm
+package by.ssrlab.fishpits.utils.vm.ui
 
 import android.os.Build
 import android.view.View
@@ -6,8 +6,6 @@ import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 
 class MapUIVM: BaseUIVM() {
-
-    private var launchesCounter = 0
 
     private fun turnUIBack(activity: MainActivity) {
         activity.showToolbar()
@@ -22,20 +20,8 @@ class MapUIVM: BaseUIVM() {
         }
     }
 
-    fun getLaunchesCounter() = launchesCounter
-
-    private fun implementLaunchesCounter(){
-        launchesCounter++
-    }
-
-    fun handlePopBack(activity: MainActivity){
-        if (getBackStackSize() == 1) activity.handleOnBackPressed(true)
-        else activity.handleOnBackPressed()
-    }
-
     fun setUI(activity: MainActivity){
         turnUIBack(activity)
-        implementLaunchesCounter()
         activity.turnOnBottomNav()
     }
 }

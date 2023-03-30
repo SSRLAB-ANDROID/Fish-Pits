@@ -8,11 +8,9 @@ import android.widget.FrameLayout
 import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.BottomFragmentPointDescriptionBinding
-import by.ssrlab.fishpits.utils.vm.sub.map.MapPointVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapPointVM
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-
-private const val COLLAPSED_HEIGHT = 228
 
 class PointDescriptionFragment : BottomSheetDialogFragment() {
 
@@ -39,15 +37,12 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
     override fun onStart() {
         super.onStart()
 
-        val density = requireContext().resources.displayMetrics.density
-
         dialog?.let {
 
             val bottomSheet = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
             val behavior = BottomSheetBehavior.from(bottomSheet)
 
-            behavior.peekHeight = (COLLAPSED_HEIGHT * density).toInt()
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 }

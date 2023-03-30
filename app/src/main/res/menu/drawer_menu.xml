@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+    <item
+        android:title="Settings">
+
+        <menu>
+
+            <item
+
+                android:id="@+id/nav_lang"
+                android:icon="@drawable/ic_menu"
+                android:title="Language">
+
+            </item>
+
+        </menu>
+
+    </item>
+
+    <item android:title="" >
+
+        <menu>
+
+            <item android:title=""/>
+            <item android:title=""/>
+
+        </menu>
+
+    </item>
+
+    <item android:title="About Us">
+
+        <menu>
+
+            <item
+                android:id="@+id/nav_about_pr"
+                android:icon="@drawable/ic_menu"
+                android:title="About Project">
+
+            </item>
+
+            <item
+                android:id="@+id/nav_write_to_devs"
+                android:icon="@drawable/ic_menu"
+                android:title="Write To Developers">
+
+            </item>
+
+        </menu>
+
+    </item>
+
+</menu>

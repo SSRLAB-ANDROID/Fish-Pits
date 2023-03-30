@@ -6,24 +6,33 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
+import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 
 open class BaseUIVM: ViewModel() {
 
     private lateinit var navController: NavController
+    private var mapCounter = 1
 
     fun defineNavController(view: View, bool: Boolean = false){
         navController = view.findNavController()
 
         if (bool){
-            navController.backQueue.removeAt(0)
-            navController.backQueue.removeAt(0)
+            for (i in 1 until navController.backQueue.size){
+                navController.backQueue.removeAt(0)
+            }
         }
+    }
+
+    fun handlePopBack(activity: MainActivity){
+
+        if (getBackStackSize() == 1) activity.handleOnBackPressed(true)
+        else activity.handleOnBackPressed()
     }
 
     fun getNavController() = navController
 
-    fun getBackStackSize() = navController.backQueue.size
+    private fun getBackStackSize() = navController.backQueue.size
 
     fun navigate(address: Int) {
         navigateTo(address)
@@ -41,5 +50,20 @@ open class BaseUIVM: ViewModel() {
                     exit = R.anim.nav_slide_out_right
                 }
             })
+    }
+
+    fun clearMapHistory(){
+        if (mapCounter > 2){
+            for (i in 1 .. 4){
+                navController.backQueue.removeAt(0)
+            }
+        }
+
+        if (mapCounter == 3) mapCounter = 2
+        mapCounter++
+    }
+
+    fun decreaseMapCounter(){
+        mapCounter--
     }
 }
