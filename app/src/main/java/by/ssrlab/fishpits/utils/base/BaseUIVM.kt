@@ -13,6 +13,7 @@ open class BaseUIVM: ViewModel() {
 
     private lateinit var navController: NavController
     private var mapCounter = 1
+    private var previousBackQueueCount = 0
 
     fun defineNavController(view: View, bool: Boolean = false){
         navController = view.findNavController()
@@ -53,6 +54,7 @@ open class BaseUIVM: ViewModel() {
     }
 
     fun clearMapHistory(){
+
         if (mapCounter > 2){
             for (i in 1 .. 4){
                 navController.backQueue.removeAt(0)
@@ -60,7 +62,14 @@ open class BaseUIVM: ViewModel() {
         }
 
         if (mapCounter == 3) mapCounter = 2
-        mapCounter++
+
+        if (previousBackQueueCount != navController.backQueue.size) {
+            mapCounter++
+            previousBackQueueCount = navController.backQueue.size
+        } else {
+            mapCounter--
+            previousBackQueueCount -= 2
+        }
     }
 
     fun decreaseMapCounter(){

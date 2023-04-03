@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
      * FOR UI
      */
     fun setBottomNav(navController: NavController){
-        activityVM.setNavFunc(binding, navController)
+        activityVM.setNavFunc(this, binding, navController)
     }
 
     /**
