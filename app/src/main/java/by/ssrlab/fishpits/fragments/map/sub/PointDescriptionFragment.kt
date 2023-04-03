@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.BottomFragmentPointDescriptionBinding
-import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapPointVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.sub.MapPointVM
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

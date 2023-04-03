@@ -13,11 +13,12 @@ import androidx.navigation.ui.setupWithNavController
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
+import by.ssrlab.fishpits.utils.base.BaseUIVM
 import kotlin.system.exitProcess
 
-class MainActivityVM: ViewModel() {
+class MainActivityVM : ViewModel() {
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true){
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             exitProcess(0)
         }
@@ -30,7 +31,7 @@ class MainActivityVM: ViewModel() {
     /**
      * FOR UI
      */
-    fun implementLaunchesCounter(){
+    fun implementLaunchesCounter() {
         launchesCounter.value = launchesCounter.value?.plus(1)
     }
 
@@ -42,12 +43,12 @@ class MainActivityVM: ViewModel() {
     /**
      * FOR UI
      */
-    fun setObservers(activity: MainActivity, binding: ActivityMainBinding){
-        toolbarTitle.observe(activity){
+    fun setObservers(activity: MainActivity, binding: ActivityMainBinding) {
+        toolbarTitle.observe(activity) {
             binding.toolbarTitle.text = it
         }
 
-        launchesCounter.observe(activity){
+        launchesCounter.observe(activity) {
             backStackSize.value = it
         }
     }
@@ -55,15 +56,19 @@ class MainActivityVM: ViewModel() {
     /**
      * FOR UI
      */
-    fun setToolbarTitle(title: String){
+    fun setToolbarTitle(title: String) {
         toolbarTitle.value = title
     }
 
     /**
      * FOR UI
      */
-    fun handleOnBackPressed(activity: MainActivity, onBackPressedDispatcher: OnBackPressedDispatcher, bool: Boolean = false){
-        if (bool){
+    fun handleOnBackPressed(
+        activity: MainActivity,
+        onBackPressedDispatcher: OnBackPressedDispatcher,
+        bool: Boolean = false
+    ) {
+        if (bool) {
             onBackPressedDispatcher.addCallback(activity, onBackPressedCallback)
         } else {
             onBackPressedCallback.remove()
@@ -73,8 +78,8 @@ class MainActivityVM: ViewModel() {
     /**
      * FOR UI
      */
-    fun turnOnBottomNav(binding: ActivityMainBinding){
-        if (binding.bottomNavigation.visibility == View.GONE){
+    fun turnOnBottomNav(binding: ActivityMainBinding) {
+        if (binding.bottomNavigation.visibility == View.GONE) {
             binding.bottomNavigation.visibility = View.VISIBLE
         }
     }
@@ -82,8 +87,8 @@ class MainActivityVM: ViewModel() {
     /**
      * FOR UI
      */
-    fun turnOffBottomNav(binding: ActivityMainBinding){
-        if (binding.bottomNavigation.visibility == View.VISIBLE){
+    fun turnOffBottomNav(binding: ActivityMainBinding) {
+        if (binding.bottomNavigation.visibility == View.VISIBLE) {
             binding.bottomNavigation.visibility = View.GONE
         }
     }
@@ -91,7 +96,11 @@ class MainActivityVM: ViewModel() {
     /**
      * FOR UI
      */
-    fun setNavFunc(activity: MainActivity, binding: ActivityMainBinding, primaryNavController: NavController){
+    fun setNavFunc(
+        activity: MainActivity,
+        binding: ActivityMainBinding,
+        primaryNavController: NavController
+    ) {
 
         binding.bottomNavigation.setupWithNavController(primaryNavController)
 
@@ -120,7 +129,8 @@ class MainActivityVM: ViewModel() {
 
                 R.id.tables_fragment -> {
                     if (binding.bottomNavigation.selectedItemId != R.id.tables_fragment) {
-                        binding.bottomNavigation.menu.findItem(R.id.tables_fragment).isChecked = true
+                        binding.bottomNavigation.menu.findItem(R.id.tables_fragment).isChecked =
+                            true
 
                         primaryNavController.navigate(
                             R.id.tables_fragment,
@@ -146,6 +156,29 @@ class MainActivityVM: ViewModel() {
 
         binding.bottomNavigation.setOnItemReselectedListener {
 
+        }
+    }
+
+    fun setupNav(binding: ActivityMainBinding, baseUIVM: BaseUIVM, activity: MainActivity) {
+        binding.navigationAppDrawer.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_about_pr -> {
+                    baseUIVM.navigate(R.id.aboutProject)
+                    true
+                }
+
+                R.id.nav_lang -> {
+                    Toast.makeText(activity, "Language", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.nav_write_to_devs -> {
+                    Toast.makeText(activity, "Write to devs", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> true
+            }
         }
     }
 }

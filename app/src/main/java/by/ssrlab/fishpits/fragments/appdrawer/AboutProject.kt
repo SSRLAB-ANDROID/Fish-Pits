@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.databinding.FragmentAboutProjectBinding
+import by.ssrlab.fishpits.utils.base.BaseFragment
+import by.ssrlab.fishpits.utils.vm.ui.sub.nav.AboutProjectUIVM
 
-class AboutProject: Fragment() {
+class AboutProject: BaseFragment() {
 
     private lateinit var binding: FragmentAboutProjectBinding
+    override val uiVM: AboutProjectUIVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,6 +22,17 @@ class AboutProject: Fragment() {
 
         binding = FragmentAboutProjectBinding.inflate(layoutInflater)
 
+        activityMain.hideNavView()
+        activityMain.hideToolbar()
+        activityMain.turnOffBottomNav()
+
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        activityMain.turnOnBottomNav()
+        activityMain.showToolbar()
     }
 }

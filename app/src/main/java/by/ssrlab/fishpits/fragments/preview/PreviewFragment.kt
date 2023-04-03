@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentPreviewBinding
 import by.ssrlab.fishpits.utils.base.BaseFragment
@@ -24,7 +23,7 @@ class PreviewFragment : BaseFragment() {
 
         binding = FragmentPreviewBinding.inflate(layoutInflater)
 
-        uiVM.hideUI(activity as MainActivity)
+        uiVM.hideUI(activityMain)
 
         return binding.root
     }

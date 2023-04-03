@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.databinding.FragmentMapBinding
 import by.ssrlab.fishpits.fragments.map.sub.PointDescriptionFragment
 import by.ssrlab.fishpits.utils.base.BaseFragment
-import by.ssrlab.fishpits.utils.vm.ui.MapUIVM
-import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapPointVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.sub.MapPointVM
 
 class MapFragment: BaseFragment() {
 
@@ -26,7 +25,7 @@ class MapFragment: BaseFragment() {
 
         binding = FragmentMapBinding.inflate(layoutInflater)
 
-        uiVM.setUI(activity as MainActivity)
+        uiVM.setUI(activityMain)
 
         binding.point.setOnClickListener {
             PointDescriptionFragment().show(childFragmentManager, "pointDescription")
@@ -40,7 +39,8 @@ class MapFragment: BaseFragment() {
 
         uiVM.clearMapHistory()
 
-        (activity as MainActivity).setBottomNav(uiVM.getNavController())
+        activityMain.setBottomNav(uiVM.getNavController())
+        activityMain.setupNavView(uiVM)
         activityVM.setToolbarTitle("Map")
     }
 

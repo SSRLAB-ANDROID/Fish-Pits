@@ -6,12 +6,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
-import by.ssrlab.fishpits.utils.vm.ui.MapUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapUIVM
 
 abstract class BaseFragment: Fragment() {
 
     abstract val uiVM: BaseUIVM
+    lateinit var activityMain: MainActivity
     val activityVM: MainActivityVM by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        activityMain = activity as MainActivity
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,6 +37,6 @@ abstract class BaseFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        uiVM.handlePopBack(activity as MainActivity)
+        uiVM.handlePopBack(activityMain)
     }
 }

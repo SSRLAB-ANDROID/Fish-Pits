@@ -46,9 +46,9 @@ open class BaseUIVM: ViewModel() {
             navOptions {
                 anim {
                     enter = R.anim.nav_slide_in_left
-                    popEnter = R.anim.nav_slide_in_left
+                    popEnter = R.anim.nav_slide_in_right
                     popExit = R.anim.nav_slide_out_right
-                    exit = R.anim.nav_slide_out_right
+                    exit = R.anim.nav_slide_out_left
                 }
             })
     }

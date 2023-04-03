@@ -1,4 +1,4 @@
-package by.ssrlab.fishpits.utils.vm.ui.sub.map
+package by.ssrlab.fishpits.utils.vm.ui.sub.map.sub
 
 import androidx.lifecycle.ViewModel
 

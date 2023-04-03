@@ -21,5 +21,17 @@
     <fragment
         android:id="@+id/tables_fragment"
         android:name="by.ssrlab.fishpits.fragments.tables.TablesFragment"
-        android:label="" />
+        android:label="" >
+        <action
+            android:id="@+id/action_tables_fragment_to_regRivHolderFragment"
+            app:destination="@id/regRivHolderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutProject"
+        android:name="by.ssrlab.fishpits.fragments.appdrawer.AboutProject"
+        android:label="AboutProject" />
+    <fragment
+        android:id="@+id/regRivHolderFragment"
+        android:name="by.ssrlab.fishpits.fragments.search.RegRivHolderFragment"
+        android:label="RegRivHolderFragment" />
 </navigation>

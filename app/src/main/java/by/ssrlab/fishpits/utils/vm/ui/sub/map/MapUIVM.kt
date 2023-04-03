@@ -1,4 +1,4 @@
-package by.ssrlab.fishpits.utils.vm.ui
+package by.ssrlab.fishpits.utils.vm.ui.sub.map
 
 import android.os.Build
 import android.view.View
