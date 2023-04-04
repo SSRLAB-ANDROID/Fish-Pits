@@ -2,24 +2,35 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/previewFragment">
+    app:startDestination="@id/map_fragment">
 
-    <fragment
-        android:id="@+id/previewFragment"
-        android:name="by.ssrlab.fishpits.fragments.preview.PreviewFragment"
-        android:label="PreviewFragment" >
-        <action
-            android:id="@+id/action_previewFragment_to_mapFragment"
-            app:destination="@id/map_fragment"
-            app:popUpToInclusive="false"
-            app:popUpToSaveState="false" />
-    </fragment>
     <fragment
         android:id="@+id/map_fragment"
         android:name="by.ssrlab.fishpits.fragments.map.MapFragment"
         android:label="" />
     <fragment
+        android:id="@+id/aboutProject"
+        android:name="by.ssrlab.fishpits.fragments.appdrawer.AboutProject"
+        android:label="AboutProject" />
+    <fragment
         android:id="@+id/tables_fragment"
         android:name="by.ssrlab.fishpits.fragments.tables.TablesFragment"
-        android:label="" />
+        android:label="TablesFragment" >
+        <action
+            android:id="@+id/action_tables_fragment_to_regRivHolderFragment"
+            app:destination="@id/regRivHolderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/regRivHolderFragment"
+        android:name="by.ssrlab.fishpits.fragments.search.RegRivHolderFragment"
+        android:label="RegRivHolderFragment" >
+        <action
+            android:id="@+id/action_regRivHolderFragment_to_chosenFragment"
+            app:destination="@id/chosenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chosenFragment"
+        android:name="by.ssrlab.fishpits.fragments.bychosen.ChosenFragment"
+        android:label="ChosenFragment" />
+
 </navigation>

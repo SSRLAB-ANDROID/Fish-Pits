@@ -1,4 +1,4 @@
-package by.ssrlab.fishpits.fragments.map.sub
+package by.ssrlab.fishpits.fragments.bychosen.sub
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.R
-import by.ssrlab.fishpits.databinding.BottomFragmentPointDescriptionBinding
-import by.ssrlab.fishpits.utils.vm.ui.sub.map.sub.MapPointVM
+import by.ssrlab.fishpits.databinding.BottomFragmentMapPointBinding
+import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class PointDescriptionFragment : BottomSheetDialogFragment() {
+class MapPointFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: BottomFragmentPointDescriptionBinding
-    private val pointVM: MapPointVM by activityViewModels() //Shared with map
+    override fun getTheme() = R.style.MapPointBottomSheetDialogTheme
 
-    override fun getTheme() = R.style.PointDescBottomSheetDialogTheme
+    private lateinit var binding: BottomFragmentMapPointBinding
+    private val chosenUIVM: ChosenUIVM by activityViewModels() /** Common with ChosenFragment */
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,11 +25,7 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = BottomFragmentPointDescriptionBinding.inflate(layoutInflater)
-
-        binding.pointDescription.setOnClickListener {
-            dismiss()
-        }
+        binding = BottomFragmentMapPointBinding.inflate(layoutInflater)
 
         return binding.root
     }
