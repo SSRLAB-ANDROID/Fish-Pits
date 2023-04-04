@@ -3,10 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:background="@drawable/map_bottom_background"
-
     android:layout_width="match_parent"
-    android:layout_height="160dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/map_point"
@@ -16,10 +14,12 @@
         android:text="Map point"
         android:textSize="24sp"
 
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="48dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

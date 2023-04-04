@@ -1,19 +1,15 @@
 package by.ssrlab.fishpits
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
-import by.ssrlab.fishpits.fragments.appdrawer.AboutProject
-import by.ssrlab.fishpits.fragments.search.adapter.PagerAdapter
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         toolbar = binding.toolbar
-
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         setContentView(binding.root)
@@ -42,8 +37,12 @@ class MainActivity : AppCompatActivity() {
     /**
      * FOR UI
      */
-    fun handleOnBackPressed(bool: Boolean = false){
-        activityVM.handleOnBackPressed(this, onBackPressedDispatcher, bool)
+    fun handleOnBackPressed(bool: Boolean = false, onBackPressedCallback: OnBackPressedCallback? = null){
+        if (onBackPressedCallback != null){
+            activityVM.handleOnBackPressed(this, onBackPressedDispatcher, bool, onBackPressedCallback)
+        } else {
+            activityVM.handleOnBackPressed(this, onBackPressedDispatcher, bool)
+        }
     }
 
     /**
@@ -64,7 +63,7 @@ class MainActivity : AppCompatActivity() {
      * FOR UI
      */
     fun setBottomNav(navController: NavController){
-        activityVM.setNavFunc(this, binding, navController)
+        activityVM.setupBottomNavFunc(binding, navController)
     }
 
     /**
@@ -92,6 +91,6 @@ class MainActivity : AppCompatActivity() {
      * FOR UI
      */
     fun setupNavView(baseUIVM: BaseUIVM){
-        activityVM.setupNav(binding, baseUIVM, this)
+        activityVM.setupNavView(binding, baseUIVM, this)
     }
 }

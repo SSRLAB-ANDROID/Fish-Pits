@@ -18,27 +18,15 @@ import kotlin.system.exitProcess
 
 class MainActivityVM : ViewModel() {
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+    private val onMapBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             exitProcess(0)
         }
     }
 
+    private var onTablesBackPressedCallback: OnBackPressedCallback? = null
+
     private val toolbarTitle: MutableLiveData<String> = MutableLiveData()
-    private val backStackSize: MutableLiveData<Int> = MutableLiveData()
-    private val launchesCounter: MutableLiveData<Int> = MutableLiveData(-1)
-
-    /**
-     * FOR UI
-     */
-    fun implementLaunchesCounter() {
-        launchesCounter.value = launchesCounter.value?.plus(1)
-    }
-
-    /**
-     * FOR UI
-     */
-    fun getLaunchesCounter() = launchesCounter.value
 
     /**
      * FOR UI
@@ -46,10 +34,6 @@ class MainActivityVM : ViewModel() {
     fun setObservers(activity: MainActivity, binding: ActivityMainBinding) {
         toolbarTitle.observe(activity) {
             binding.toolbarTitle.text = it
-        }
-
-        launchesCounter.observe(activity) {
-            backStackSize.value = it
         }
     }
 
@@ -63,15 +47,18 @@ class MainActivityVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun handleOnBackPressed(
-        activity: MainActivity,
-        onBackPressedDispatcher: OnBackPressedDispatcher,
-        bool: Boolean = false
-    ) {
+    fun handleOnBackPressed(activity: MainActivity, onBackPressedDispatcher: OnBackPressedDispatcher, bool: Boolean = false, onBackPressedCallback: OnBackPressedCallback? = null) {
         if (bool) {
-            onBackPressedDispatcher.addCallback(activity, onBackPressedCallback)
+            onBackPressedDispatcher.addCallback(activity, onMapBackPressedCallback)
+        } else if (onBackPressedCallback != null){
+            onMapBackPressedCallback.remove()
+            onTablesBackPressedCallback = onBackPressedCallback
+            onBackPressedDispatcher.addCallback(onTablesBackPressedCallback!!)
         } else {
-            onBackPressedCallback.remove()
+            onMapBackPressedCallback.remove()
+            if (onTablesBackPressedCallback != null){
+                onTablesBackPressedCallback!!.remove()
+            }
         }
     }
 
@@ -96,8 +83,7 @@ class MainActivityVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun setNavFunc(
-        activity: MainActivity,
+    fun setupBottomNavFunc(
         binding: ActivityMainBinding,
         primaryNavController: NavController
     ) {
@@ -109,6 +95,7 @@ class MainActivityVM : ViewModel() {
             when (it.itemId) {
 
                 R.id.map_fragment -> {
+
                     if (binding.bottomNavigation.selectedItemId != R.id.map_fragment) {
                         binding.bottomNavigation.menu.findItem(R.id.map_fragment).isChecked = true
 
@@ -129,8 +116,7 @@ class MainActivityVM : ViewModel() {
 
                 R.id.tables_fragment -> {
                     if (binding.bottomNavigation.selectedItemId != R.id.tables_fragment) {
-                        binding.bottomNavigation.menu.findItem(R.id.tables_fragment).isChecked =
-                            true
+                        binding.bottomNavigation.menu.findItem(R.id.tables_fragment).isChecked = true
 
                         primaryNavController.navigate(
                             R.id.tables_fragment,
@@ -147,19 +133,32 @@ class MainActivityVM : ViewModel() {
                     true
                 }
 
-                else -> {
-                    Toast.makeText(activity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-                    true
-                }
+                else -> false
             }
         }
 
         binding.bottomNavigation.setOnItemReselectedListener {
 
+            when (it.itemId) {
+                R.id.tables_fragment -> {
+                    primaryNavController.navigate(
+                        R.id.tables_fragment,
+                        bundleOf(),
+                        navOptions {
+                            anim {
+                                enter = R.anim.nav_slide_in_right
+                                exit = R.anim.nav_slide_out_right
+                            }
+                        })
+                }
+            }
         }
     }
 
-    fun setupNav(binding: ActivityMainBinding, baseUIVM: BaseUIVM, activity: MainActivity) {
+    /**
+     * FOR UI
+     */
+    fun setupNavView(binding: ActivityMainBinding, baseUIVM: BaseUIVM, activity: MainActivity) {
         binding.navigationAppDrawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_about_pr -> {
