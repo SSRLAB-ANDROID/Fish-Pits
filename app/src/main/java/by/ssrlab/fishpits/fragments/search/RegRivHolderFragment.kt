@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.databinding.FragmentRegrivHolderBinding
 import by.ssrlab.fishpits.fragments.search.adapter.PagerAdapter
 import by.ssrlab.fishpits.utils.base.BaseFragment
@@ -26,7 +25,7 @@ class RegRivHolderFragment: BaseFragment() {
 
         binding = FragmentRegrivHolderBinding.inflate(layoutInflater)
 
-        (activity as MainActivity).handleOnBackPressed()
+        activityMain.handleOnBackPressed()
 
         pagerAdapter = PagerAdapter(activityMain)
         binding.viewPager.adapter = pagerAdapter

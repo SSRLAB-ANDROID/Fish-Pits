@@ -8,13 +8,13 @@ android {
     compileSdk 33
 
     defaultConfig {
+        viewBinding.enabled = true
+
         applicationId "by.ssrlab.fishpits"
         minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
-        viewBinding.enabled = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

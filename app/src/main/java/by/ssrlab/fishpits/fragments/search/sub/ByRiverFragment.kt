@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentByRiverBinding
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
@@ -29,6 +30,8 @@ class ByRiverFragment: Fragment() {
 
         binding = FragmentByRiverBinding.inflate(layoutInflater)
 
+        (activity as MainActivity).handleOnBackPressed()
+
         return binding.root
     }
 
@@ -40,6 +43,7 @@ class ByRiverFragment: Fragment() {
         uiVM.setNavController(regRivUIVM.getNavController())
         binding.textView.setOnClickListener {
             chosenUIVM.chosenOne = 1
+            activityVM.setToolbarTitle("2")
             uiVM.navigate(R.id.action_regRivHolderFragment_to_chosenFragment)
         }
     }

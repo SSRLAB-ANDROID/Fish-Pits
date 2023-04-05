@@ -28,6 +28,8 @@ class ChosenFragment: BaseFragment() {
 
         binding.points.layoutManager = LinearLayoutManager(context)
 
+        activityMain.handleOnBackPressed()
+
         return binding.root
     }
 

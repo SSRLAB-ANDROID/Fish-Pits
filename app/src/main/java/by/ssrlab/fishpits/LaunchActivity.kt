@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import by.ssrlab.fishpits.databinding.ActivityLaunchBinding
+
 import kotlinx.coroutines.*
 
 @SuppressLint("CustomSplashScreen")

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentByRegionBinding
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
@@ -29,7 +30,7 @@ class ByRegionFragment: Fragment() {
 
         binding = FragmentByRegionBinding.inflate(layoutInflater)
 
-        activityVM.setToolbarTitle("Regions")
+        (activity as MainActivity).handleOnBackPressed()
 
         return binding.root
     }
@@ -41,6 +42,7 @@ class ByRegionFragment: Fragment() {
         uiVM.setNavController(regRivUIVM.getNavController())
         binding.textView.setOnClickListener {
             chosenUIVM.chosenOne = 0
+            activityVM.setToolbarTitle("1")
             uiVM.navigate(R.id.action_regRivHolderFragment_to_chosenFragment)
         }
     }

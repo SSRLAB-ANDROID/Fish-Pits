@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/dialog_background"
+
+    android:layout_marginHorizontal="16dp">
+
+    <TextView
+        android:id="@+id/first_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="1st language"
+        android:textSize="24sp"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/second_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="2nd language"
+        android:textSize="24sp"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first_language"/>
+
+    <TextView
+        android:id="@+id/third_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="3rd language"
+        android:textSize="24sp"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginVertical="16dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second_language"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
