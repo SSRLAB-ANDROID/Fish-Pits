@@ -1,6 +1,14 @@
 package by.ssrlab.fishpits.utils.vm.main
 
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
@@ -13,6 +21,7 @@ import androidx.navigation.ui.setupWithNavController
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
+import by.ssrlab.fishpits.databinding.DialogLanguageBinding
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 import kotlin.system.exitProcess
 
@@ -167,17 +176,54 @@ class MainActivityVM : ViewModel() {
                 }
 
                 R.id.nav_lang -> {
-                    Toast.makeText(activity, "Language", Toast.LENGTH_SHORT).show()
+                    initLangDialog(activity)
                     true
                 }
 
                 R.id.nav_write_to_devs -> {
-                    Toast.makeText(activity, "Write to devs", Toast.LENGTH_SHORT).show()
+                    activity.startActivity(Intent(
+                            Intent.ACTION_SENDTO,
+                            Uri.parse("mailto:ssrlab221@gmail.com")
+                        )
+                    )
                     true
                 }
 
                 else -> true
             }
         }
+    }
+
+    private fun initLangDialog(activity: MainActivity){
+
+        val dialog = Dialog(activity)
+        val dialogBinding = DialogLanguageBinding.inflate(LayoutInflater.from(activity))
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogBinding.root)
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+
+        val layoutParams = WindowManager.LayoutParams()
+        layoutParams.copyFrom(dialog.window!!.attributes)
+        layoutParams.width = 1000
+        dialog.window?.attributes = layoutParams
+
+        dialogBinding.firstLanguage.setOnClickListener {
+            Toast.makeText(activity, "1st language", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialogBinding.secondLanguage.setOnClickListener {
+            Toast.makeText(activity, "2nd language", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialogBinding.thirdLanguage.setOnClickListener {
+            Toast.makeText(activity, "3rd language", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
