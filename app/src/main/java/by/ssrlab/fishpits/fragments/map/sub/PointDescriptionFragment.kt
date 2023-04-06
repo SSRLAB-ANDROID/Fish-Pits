@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.activityViewModels
+import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.BottomFragmentPointDescriptionBinding
 import by.ssrlab.fishpits.utils.vm.ui.sub.map.sub.MapPointVM
@@ -27,9 +28,7 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
 
         binding = BottomFragmentPointDescriptionBinding.inflate(layoutInflater)
 
-        binding.pointDescription.setOnClickListener {
-            dismiss()
-        }
+        (activity as MainActivity).turnOffBottomNav()
 
         return binding.root
     }
@@ -44,5 +43,11 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
 
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        (activity as MainActivity).turnOnBottomNav()
     }
 }

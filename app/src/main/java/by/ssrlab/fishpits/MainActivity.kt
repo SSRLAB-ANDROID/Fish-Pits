@@ -1,7 +1,6 @@
 package by.ssrlab.fishpits
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         setContentView(binding.root)
 
+        activityVM.setDrawerListener(binding, this)
+
         binding.menuButton.setOnClickListener {
             binding.drawer.openDrawer(binding.navigationAppDrawer)
         }
@@ -49,14 +50,14 @@ class MainActivity : AppCompatActivity() {
      * FOR UI
      */
     fun turnOnBottomNav(){
-        activityVM.turnOnBottomNav(binding)
+        activityVM.turnOnBottomNav(binding, this)
     }
 
     /**
      * FOR UI
      */
     fun turnOffBottomNav(){
-        activityVM.turnOffBottomNav(binding)
+        activityVM.turnOffBottomNav(binding, this)
     }
 
     /**
@@ -70,14 +71,14 @@ class MainActivity : AppCompatActivity() {
      * FOR UI
      */
     fun hideToolbar(){
-        toolbar.visibility = View.GONE
+        activityVM.hideToolbar(toolbar, this)
     }
 
     /**
      * FOR UI
      */
     fun showToolbar(){
-        toolbar.visibility = View.VISIBLE
+        activityVM.showToolbar(toolbar, this)
     }
 
     /**

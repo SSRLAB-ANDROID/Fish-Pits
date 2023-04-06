@@ -9,6 +9,9 @@ android {
 
     defaultConfig {
         viewBinding.enabled = true
+        dataBinding {
+            enabled = true
+        }
 
         applicationId "by.ssrlab.fishpits"
         minSdk 21

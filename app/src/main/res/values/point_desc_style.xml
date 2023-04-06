@@ -6,7 +6,7 @@
     </style>
 
     <style name="PointDescAppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/description_bottom_background</item>
+        <item name="android:background">@drawable/bottom_description_background</item>
     </style>
 
 </resources>

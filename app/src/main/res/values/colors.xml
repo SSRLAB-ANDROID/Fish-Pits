@@ -7,4 +7,27 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- launch-->
+    <color name="gradient_dark">#202341</color>
+    <color name="gradient_light">#30518A</color>
+
+    <!-- main -->
+    <color name="gradient_dark_drawer">#202341</color>
+    <color name="gradient_light_drawer">#B92A3B4E</color>
+
+    <color name="drawer_title">#99FFFFFF</color>
+    <color name="drawer_item_text">@color/white</color>
+    <color name="drawer_icon_tint">@color/white</color>
+
+    <color name="gradient_bottom_dark">#BB202341</color>
+    <color name="gradient_bottom_light">#B92A3B4E</color>
+
+    <color name="background_transparent_light"></color>
+
+    <color name="main_color">#2A3553</color>
+    <color name="main_sub_color">#2A3553</color>
+
+    <color name="nav_button_selected">#7B90C9</color>
+    <color name="nav_button">#B7B8BA</color>
 </resources>

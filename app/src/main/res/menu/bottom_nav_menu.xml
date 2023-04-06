@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group>
 
-        <item
-            android:id="@+id/map_fragment"
-            android:title="map" />
+    <item
+        android:id="@+id/map_fragment"
+        android:icon="@drawable/selector_map"
+        android:title="Map" />
 
-        <item
-            android:id="@+id/tables_fragment"
-            android:title="tables" />
-
-    </group>
+    <item
+        android:id="@+id/tables_fragment"
+        android:icon="@drawable/selector_tables"
+        android:title="Tables" />
 
 </menu>

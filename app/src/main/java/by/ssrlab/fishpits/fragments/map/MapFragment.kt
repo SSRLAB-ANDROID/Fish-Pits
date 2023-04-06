@@ -26,6 +26,7 @@ class MapFragment: BaseFragment() {
         binding = FragmentMapBinding.inflate(layoutInflater)
 
         activityMain.turnOnBottomNav()
+        activityMain.showToolbar()
 
         binding.point.setOnClickListener {
             PointDescriptionFragment().show(childFragmentManager, "pointDescription")

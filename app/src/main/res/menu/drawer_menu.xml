@@ -12,7 +12,7 @@
             <item
 
                 android:id="@+id/nav_lang"
-                android:icon="@drawable/ic_menu"
+                android:icon="@drawable/ic_language"
                 android:title="Language">
 
             </item>
@@ -38,14 +38,14 @@
 
             <item
                 android:id="@+id/nav_about_pr"
-                android:icon="@drawable/ic_menu"
+                android:icon="@drawable/ic_about"
                 android:title="About Project">
 
             </item>
 
             <item
                 android:id="@+id/nav_write_to_devs"
-                android:icon="@drawable/ic_menu"
+                android:icon="@drawable/ic_wirte_to_devs"
                 android:title="Write To Developers">
 
             </item>
