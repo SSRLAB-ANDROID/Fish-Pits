@@ -14,10 +14,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class MapPointFragment : BottomSheetDialogFragment() {
 
-    override fun getTheme() = R.style.MapPointBottomSheetDialogTheme
-
     private lateinit var binding: BottomFragmentMapPointBinding
     private val chosenUIVM: ChosenUIVM by activityViewModels() /** Common with ChosenFragment */
+
+    override fun getTheme() = R.style.MapPointBottomSheetDialogTheme
 
     override fun onCreateView(
         inflater: LayoutInflater,

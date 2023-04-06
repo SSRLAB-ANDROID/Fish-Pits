@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentTablesBinding
 import by.ssrlab.fishpits.utils.base.BaseFragment
-import by.ssrlab.fishpits.utils.vm.ui.TablesUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.tables.TablesUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.tables.regriv.RegRivUIVM
 
 class TablesFragment: BaseFragment() {

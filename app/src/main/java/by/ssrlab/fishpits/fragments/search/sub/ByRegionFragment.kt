@@ -9,15 +9,15 @@ import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentByRegionBinding
+import by.ssrlab.fishpits.utils.base.BaseUIVM
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.tables.regriv.RegRivUIVM
-import by.ssrlab.fishpits.utils.vm.ui.sub.tables.regriv.sub.ByRegUIVM
 
 class ByRegionFragment: Fragment() {
 
     private lateinit var binding: FragmentByRegionBinding
-    private val uiVM: ByRegUIVM by activityViewModels()
+    private val uiVM: BaseUIVM by activityViewModels()
     private val regRivUIVM: RegRivUIVM by activityViewModels()
     private val activityVM: MainActivityVM by activityViewModels()
     private val chosenUIVM: ChosenUIVM by activityViewModels()
