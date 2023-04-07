@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:background="@drawable/background_activity_launch"
+    android:background="@drawable/background_main_blue_gradient"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:src="@drawable/ic_text_logo"
+        android:src="@drawable/ic_text_logo_launch"
 
         android:visibility="invisible"
 
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:src="@drawable/ic_fish_logo"
+        android:src="@drawable/ic_logo_launch"
 
         android:visibility="invisible"
 

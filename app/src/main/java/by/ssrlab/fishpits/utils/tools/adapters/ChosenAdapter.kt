@@ -22,8 +22,9 @@ class ChosenAdapter(private val list: List<Any>, private val childFragmentManage
 
         with(holder) {
             with(list[position]) {
-                binding.number.text = (position + 1).toString()
-                binding.background.setOnClickListener {
+                binding.chosenNumber.text = (position + 1).toString()
+                binding.chosenLabel.text = "${position + 1} test district"
+                binding.chosenShowButton.setOnClickListener {
                     MapPointFragment().show(childFragmentManager, "mapPoint")
                 }
             }

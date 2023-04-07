@@ -6,34 +6,132 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_by_regions"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/by_regions_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:text="By Regions"
-        android:textColor="@color/black"
-        android:textSize="45sp"
+        android:background="@drawable/ripple_tables_item"
 
-        android:layout_marginTop="95dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="82dp"
 
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/text_by_rivers"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/by_regions_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="By Regions"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="12dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/by_regions_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="The table by region can help you find the area you need and the specific coordinates of the winter pit"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/by_regions_label"/>
+
+        <ImageView
+            android:id="@+id/by_regions_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_by_regions"
+
+            android:layout_marginVertical="24dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/by_regions_text"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/by_rivers_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:text="By Rivers"
-        android:textColor="@color/black"
-        android:textSize="45sp"
+        android:background="@drawable/ripple_tables_item"
 
-        android:layout_marginTop="45dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
 
-        app:layout_constraintTop_toBottomOf="@id/text_by_regions"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/by_regions_item">
+
+        <TextView
+            android:id="@+id/by_rivers_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="By Rivers"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="12dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/by_rivers_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="The river table will be able to help you in finding specific coordinates of the wintering pit by focusing on the location and length of the river"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/by_rivers_label"/>
+
+        <ImageView
+            android:id="@+id/by_rivers_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@drawable/ic_by_rivers"
+
+            android:layout_marginVertical="24dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/by_rivers_text"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
