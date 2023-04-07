@@ -10,8 +10,8 @@ import androidx.navigation.navOptions
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
-import by.ssrlab.fishpits.utils.vm.ui.MapUIVM
-import by.ssrlab.fishpits.utils.vm.ui.TablesUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.tables.TablesUIVM
 
 abstract class BaseFragment : Fragment() {
 

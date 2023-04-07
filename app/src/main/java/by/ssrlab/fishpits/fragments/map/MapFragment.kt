@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.databinding.FragmentMapBinding
 import by.ssrlab.fishpits.fragments.map.sub.PointDescriptionFragment
 import by.ssrlab.fishpits.utils.base.BaseFragment
-import by.ssrlab.fishpits.utils.vm.ui.MapUIVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.map.sub.MapPointVM
 
 class MapFragment: BaseFragment() {
