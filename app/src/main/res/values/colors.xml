@@ -36,4 +36,7 @@
 
     <color name="chosen_number_color">#4AFFFFFF</color>
     <color name="ripple_color">#48EDEDED</color>
+
+    <color name="marker_unactivated">#305089</color>
+    <color name="marker_activated">#5B90EE</color>
 </resources>
