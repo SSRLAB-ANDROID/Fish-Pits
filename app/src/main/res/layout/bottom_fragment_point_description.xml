@@ -1,73 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/short_description"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/ic_river"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:orientation="vertical"
-        android:gravity="center"
+        android:src="@drawable/ic_river"
 
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/point_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/title_river"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-            android:layout_marginTop="32dp"
-            android:text="Description"
+        android:text="River"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
 
-            android:textSize="24sp"
+        android:layout_marginStart="32dp"
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/ic_river"
+        app:layout_constraintTop_toTopOf="@id/ic_river"
+        app:layout_constraintBottom_toBottomOf="@id/ic_river"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="40dp"/>
+    <ImageView
+        android:id="@+id/ic_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-    </LinearLayout>
+        android:src="@drawable/ic_region"
 
-    <LinearLayout
-        android:id="@+id/full_description"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_river"/>
+
+    <TextView
+        android:id="@+id/title_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Region"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+
+        android:layout_marginStart="32dp"
+
+        app:layout_constraintStart_toEndOf="@id/ic_region"
+        app:layout_constraintTop_toTopOf="@id/ic_region"
+        app:layout_constraintBottom_toBottomOf="@id/ic_region"/>
+
+    <ImageView
+        android:id="@+id/ic_district"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/ic_district"
+
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_region"/>
+
+    <TextView
+        android:id="@+id/title_district"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="District"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+
+        android:layout_marginStart="32dp"
+
+        app:layout_constraintStart_toEndOf="@id/ic_district"
+        app:layout_constraintTop_toTopOf="@id/ic_district"
+        app:layout_constraintBottom_toBottomOf="@id/ic_district"/>
+
+    <ImageView
+        android:id="@+id/ic_pit_started"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/ic_pit_started"
+
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_district"/>
+
+    <TextView
+        android:id="@+id/title_pit_started"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Pit started"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+
+        android:layout_marginStart="32dp"
+
+        app:layout_constraintStart_toEndOf="@id/ic_pit_started"
+        app:layout_constraintTop_toTopOf="@id/ic_pit_started"
+        app:layout_constraintBottom_toBottomOf="@id/ic_pit_started"/>
+
+    <ImageView
+        android:id="@+id/ic_pit_finished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/ic_pit_finished"
+
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_pit_started"/>
+
+    <TextView
+        android:id="@+id/title_pit_finished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Pit started"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+
+        android:layout_marginStart="32dp"
+
+        app:layout_constraintStart_toEndOf="@id/ic_pit_finished"
+        app:layout_constraintTop_toTopOf="@id/ic_pit_finished"
+        app:layout_constraintBottom_toBottomOf="@id/ic_pit_finished"/>
+
+    <ImageView
+        android:id="@+id/ic_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/ic_description"
+
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_pit_finished"/>
+
+    <TextView
+        android:id="@+id/title_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Description"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+
+        android:layout_marginStart="32dp"
+
+        app:layout_constraintStart_toEndOf="@id/ic_description"
+        app:layout_constraintTop_toTopOf="@id/ic_description"
+        app:layout_constraintBottom_toBottomOf="@id/ic_description"/>
+
+    <View
+        android:id="@+id/horizontal_separator"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="50dp"
 
-        android:orientation="vertical"
-        android:gravity="center"
-
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/short_description">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_description"/>
 
-        <TextView
-            android:id="@+id/full_point_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <View
+        android:id="@+id/vertical_separator"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
 
-            android:layout_marginTop="32dp"
-            android:text="Some text"
+        android:layout_marginStart="16dp"
 
-            android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@id/title_description"
+        app:layout_constraintBottom_toBottomOf="@id/horizontal_separator"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/text_river"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+        android:text="Test river"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
 
-    </LinearLayout>
+        android:layout_marginHorizontal="16dp"
+
+        app:layout_constraintStart_toEndOf="@id/vertical_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title_river"
+        app:layout_constraintBottom_toBottomOf="@id/title_river"/>
+
+    <TextView
+        android:id="@+id/text_region"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="Test region"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+
+        android:layout_marginHorizontal="16dp"
+
+        app:layout_constraintStart_toEndOf="@id/vertical_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title_region"
+        app:layout_constraintBottom_toBottomOf="@id/title_region"/>
+
+    <TextView
+        android:id="@+id/text_district"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="Test district"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+
+        android:layout_marginHorizontal="16dp"
+
+        app:layout_constraintStart_toEndOf="@id/vertical_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title_district"
+        app:layout_constraintBottom_toBottomOf="@id/title_district"/>
+
+    <TextView
+        android:id="@+id/text_pit_started"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="51.6052\n30.5161"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+
+        android:lines="2"
+
+        android:layout_marginHorizontal="16dp"
+
+        app:layout_constraintStart_toEndOf="@id/vertical_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title_pit_started"
+        app:layout_constraintBottom_toBottomOf="@id/title_pit_started"/>
+
+    <TextView
+        android:id="@+id/text_pit_finished"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="51.5945\n30.5077"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+
+        android:lines="2"
+
+        android:layout_marginHorizontal="16dp"
+
+        app:layout_constraintStart_toEndOf="@id/vertical_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title_pit_finished"
+        app:layout_constraintBottom_toBottomOf="@id/title_pit_finished"/>
+
+    <TextView
+        android:id="@+id/text_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="From the exit of the Asarevichsky old man downstream (local name Grushka)"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+
+        android:lines="3"
+
+        android:layout_marginHorizontal="16dp"
+
+        app:layout_constraintStart_toEndOf="@id/vertical_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title_description"
+        app:layout_constraintBottom_toBottomOf="@id/title_description"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

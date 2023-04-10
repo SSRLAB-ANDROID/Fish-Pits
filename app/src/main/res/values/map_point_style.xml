@@ -6,7 +6,7 @@
     </style>
 
     <style name="MapPointAppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/map_bottom_background</item>
+        <item name="android:background">@drawable/bottom_map_background</item>
     </style>
 
 </resources>

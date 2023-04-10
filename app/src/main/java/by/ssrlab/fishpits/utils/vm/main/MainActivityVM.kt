@@ -9,10 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
@@ -74,8 +77,12 @@ class MainActivityVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun turnOnBottomNav(binding: ActivityMainBinding) {
+    fun turnOnBottomNav(binding: ActivityMainBinding, activity: MainActivity) {
         if (binding.bottomNavigation.visibility == View.GONE) {
+
+            val showAnim = AnimationUtils.loadAnimation(activity, R.anim.bottom_nav_show_anim)
+            binding.bottomNavigation.startAnimation(showAnim)
+
             binding.bottomNavigation.visibility = View.VISIBLE
         }
     }
@@ -83,10 +90,32 @@ class MainActivityVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun turnOffBottomNav(binding: ActivityMainBinding) {
+    fun turnOffBottomNav(binding: ActivityMainBinding, activity: MainActivity) {
         if (binding.bottomNavigation.visibility == View.VISIBLE) {
+
+            val hideAnim = AnimationUtils.loadAnimation(activity, R.anim.bottom_nav_hide_anim)
+            binding.bottomNavigation.startAnimation(hideAnim)
+
             binding.bottomNavigation.visibility = View.GONE
         }
+    }
+
+    /**
+     * FOR UI
+     */
+    fun hideToolbar(toolbar: Toolbar, activity: MainActivity){
+        val hidAnim = AnimationUtils.loadAnimation(activity, R.anim.toolbar_hide_anim)
+        toolbar.startAnimation(hidAnim)
+        toolbar.visibility = View.GONE
+    }
+
+    /**
+     * FOR UI
+     */
+    fun showToolbar(toolbar: Toolbar, activity: MainActivity){
+        val showAnim = AnimationUtils.loadAnimation(activity, R.anim.toolbar_show_anim)
+        toolbar.startAnimation(showAnim)
+        toolbar.visibility = View.VISIBLE
     }
 
     /**
@@ -194,6 +223,9 @@ class MainActivityVM : ViewModel() {
         }
     }
 
+    /**
+     * FOR UI
+     */
     private fun initLangDialog(activity: MainActivity){
 
         val dialog = Dialog(activity)
@@ -225,5 +257,32 @@ class MainActivityVM : ViewModel() {
         }
 
         dialog.show()
+    }
+
+    /**
+     * FOR UI
+     */
+    fun setDrawerListener(binding: ActivityMainBinding, activity: MainActivity){
+        binding.drawer.addDrawerListener(object: DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+
+            override fun onDrawerOpened(drawerView: View) {}
+
+            override fun onDrawerClosed(drawerView: View) {}
+
+            override fun onDrawerStateChanged(newState: Int) {
+                if (!binding.drawer.isDrawerOpen(binding.navigationAppDrawer)){
+                    if (newState == DrawerLayout.STATE_SETTLING){
+                        turnOffBottomNav(binding, activity)
+                        activity.hideToolbar()
+                    }
+                } else {
+                    if (newState == DrawerLayout.STATE_SETTLING){
+                        activity.showToolbar()
+                        turnOnBottomNav(binding, activity)
+                    }
+                }
+            }
+        })
     }
 }

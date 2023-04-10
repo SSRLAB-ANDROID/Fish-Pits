@@ -20,13 +20,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="Point"
-        android:textSize="24sp"
+        android:src="@drawable/ic_map_point"
 
         android:layout_marginTop="64dp"
 
