@@ -11,7 +11,7 @@ import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.databinding.FragmentByRiverBinding
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 import by.ssrlab.fishpits.utils.tools.adapters.regriv.ByRiverAdapter
-import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
+import by.ssrlab.fishpits.utils.vm.main.MainVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.tables.regriv.RegRivUIVM
 
@@ -20,7 +20,7 @@ class ByRiverFragment: Fragment() {
     private lateinit var binding: FragmentByRiverBinding
     private val uiVM: BaseUIVM by activityViewModels()
     private val regRivUIVM: RegRivUIVM by activityViewModels()
-    private val activityVM: MainActivityVM by activityViewModels()
+    private val activityVM: MainVM by activityViewModels()
     private val chosenUIVM: ChosenUIVM by activityViewModels()
 
     private lateinit var adapter: ByRiverAdapter

@@ -5,8 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import by.ssrlab.fishpits.databinding.ActivityLaunchBinding
+import by.ssrlab.fishpits.retrofit.common.Common
+import by.ssrlab.fishpits.retrofit.`interface`.RetrofitServices
+import by.ssrlab.fishpits.utils.vm.main.MainVM
 
 import kotlinx.coroutines.*
 
@@ -16,6 +20,9 @@ class LaunchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLaunchBinding
     private val mediaJob = Job()
     private val mediaScope = CoroutineScope(Dispatchers.Main + mediaJob)
+
+    private val activityVM: MainVM by viewModels()
+    private lateinit var mService: RetrofitServices
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +48,10 @@ class LaunchActivity : AppCompatActivity() {
         mediaScope.launch {
             startApp()
         }
+
+        mService = Common.retrofitService
+        activityVM.setServices(mService)
+        activityVM.loadData()
 
         mediaScope.launch {
             delay(5000)

@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.navOptions
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
-import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
+import by.ssrlab.fishpits.utils.vm.main.MainVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.tables.TablesUIVM
 
@@ -17,7 +17,7 @@ abstract class BaseFragment : Fragment() {
 
     abstract val uiVM: BaseUIVM
     lateinit var activityMain: MainActivity
-    val activityVM: MainActivityVM by activityViewModels()
+    val activityVM: MainVM by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
