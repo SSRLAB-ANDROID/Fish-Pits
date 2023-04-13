@@ -40,7 +40,6 @@ class ChosenFragment: BaseFragment() {
             arrayListOf(0, 1, 2, 3, 4, 5, 6)
         } else {
             arrayListOf(0, 1, 2, 3)
-
         }
 
         adapter = ChosenAdapter(list, childFragmentManager)

@@ -15,8 +15,6 @@
 
     </item>
 
-    <item android:drawable="@drawable/ic_drawer_bottom_right" android:gravity="bottom|end"/>
-
-    <item android:drawable="@drawable/ic_drawer_bottom_left" android:gravity="bottom|start"/>
+    <item android:drawable="@drawable/background_fish_drawer" android:gravity="bottom"/>
 
 </layer-list>

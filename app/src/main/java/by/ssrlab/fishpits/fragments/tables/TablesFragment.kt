@@ -39,12 +39,12 @@ class TablesFragment: BaseFragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.textByRegions.setOnClickListener {
+        binding.byRegionsItem.setOnClickListener {
             regRivUIVM.currentPos = 0
             uiVM.navigate(R.id.action_tables_fragment_to_regRivHolderFragment)
         }
 
-        binding.textByRivers.setOnClickListener {
+        binding.byRiversItem.setOnClickListener {
             regRivUIVM.currentPos = 1
             uiVM.navigate(R.id.action_tables_fragment_to_regRivHolderFragment)
         }

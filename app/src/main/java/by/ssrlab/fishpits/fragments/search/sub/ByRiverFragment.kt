@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.ssrlab.fishpits.MainActivity
-import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentByRiverBinding
 import by.ssrlab.fishpits.utils.base.BaseUIVM
+import by.ssrlab.fishpits.utils.tools.adapters.regriv.ByRiverAdapter
 import by.ssrlab.fishpits.utils.vm.main.MainActivityVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.tables.regriv.RegRivUIVM
@@ -22,6 +23,8 @@ class ByRiverFragment: Fragment() {
     private val activityVM: MainActivityVM by activityViewModels()
     private val chosenUIVM: ChosenUIVM by activityViewModels()
 
+    private lateinit var adapter: ByRiverAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +32,8 @@ class ByRiverFragment: Fragment() {
     ): View {
 
         binding = FragmentByRiverBinding.inflate(layoutInflater)
+
+        binding.riverRv.layoutManager = LinearLayoutManager(activity as MainActivity)
 
         (activity as MainActivity).handleOnBackPressed()
 
@@ -39,12 +44,10 @@ class ByRiverFragment: Fragment() {
         super.onResume()
 
         activityVM.setToolbarTitle("Rivers")
-
         uiVM.setNavController(regRivUIVM.getNavController())
-        binding.textView.setOnClickListener {
-            chosenUIVM.chosenOne = 1
-            activityVM.setToolbarTitle("2")
-            uiVM.navigate(R.id.action_regRivHolderFragment_to_chosenFragment)
-        }
+
+        val list = arrayListOf(0, 1, 2, 3)
+        adapter = ByRiverAdapter(list, chosenUIVM, activityVM, uiVM)
+        binding.riverRv.adapter = adapter
     }
 }

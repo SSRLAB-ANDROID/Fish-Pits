@@ -9,12 +9,21 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_titles"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
 
-        android:layout_marginTop="82dp"
-        android:layout_marginHorizontal="32dp"
+        android:background="@drawable/background_tabs_unactivated"
 
-        android:background="#8BB4DD"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabIndicatorGravity="stretch"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicator="@drawable/tab_indicator"
+        app:tabIndicatorColor="@color/tab_activated_color"
+
+        android:layout_marginTop="66dp"
+        android:layout_marginHorizontal="16dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
 
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="50dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

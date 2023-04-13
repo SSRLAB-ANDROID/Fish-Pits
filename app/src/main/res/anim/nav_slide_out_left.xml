@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <translate
-        android:duration="50"
+        android:duration="100"
         android:fromXDelta="0%"
         android:toXDelta="-100%" >
     </translate>

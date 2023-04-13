@@ -23,11 +23,17 @@
     <color name="gradient_bottom_dark">#BB202341</color>
     <color name="gradient_bottom_light">#B92A3B4E</color>
 
-    <color name="background_transparent_light"></color>
-
     <color name="main_color">#2A3553</color>
     <color name="main_sub_color">#2A3553</color>
 
     <color name="nav_button_selected">#7B90C9</color>
     <color name="nav_button">#B7B8BA</color>
+
+    <color name="table_items_background">#1CFFFFFF</color>
+
+    <color name="tab_activated_color">#5B90EE</color>
+    <color name="tab_not_activated_color">#3D767680</color>
+
+    <color name="chosen_number_color">#4AFFFFFF</color>
+    <color name="ripple_color">#48EDEDED</color>
 </resources>

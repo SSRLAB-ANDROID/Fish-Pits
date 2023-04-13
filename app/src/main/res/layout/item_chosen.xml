@@ -1,36 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/chosen_item"
+
+    android:background="@drawable/background_chosen"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="12dp"
+
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-
-        android:background="#178F52"
-
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="16dp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <TextView
-        android:id="@+id/number"
+        android:id="@+id/chosen_label_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="ITEM"
-        android:textStyle="bold"
-        android:textSize="36sp"
+        android:src="@drawable/ic_chosen_label_icon"
 
-        app:layout_constraintStart_toStartOf="@id/background"
-        app:layout_constraintEnd_toEndOf="@id/background"
-        app:layout_constraintTop_toTopOf="@id/background"
-        app:layout_constraintBottom_toBottomOf="@id/background"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/chosen_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/ic_chosen_number_circle"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/chosen_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="1"
+        android:textColor="@color/chosen_number_color"
+        android:textSize="12sp"
+
+        app:layout_constraintStart_toStartOf="@id/chosen_circle"
+        app:layout_constraintEnd_toEndOf="@id/chosen_circle"
+        app:layout_constraintTop_toTopOf="@id/chosen_circle"
+        app:layout_constraintBottom_toBottomOf="@id/chosen_circle"/>
+
+    <TextView
+        android:id="@+id/chosen_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="Braginsky district"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+
+        android:layout_marginHorizontal="12dp"
+
+        app:layout_constraintStart_toEndOf="@id/chosen_label_icon"
+        app:layout_constraintEnd_toStartOf="@id/chosen_circle"
+        app:layout_constraintTop_toTopOf="@id/chosen_label_icon"
+        app:layout_constraintBottom_toBottomOf="@id/chosen_label_icon"/>
+
+    <ImageView
+        android:id="@+id/chosen_start_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/ic_chosen_start_icon"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="6dp"
+
+        app:layout_constraintTop_toBottomOf="@id/chosen_label_icon"
+        app:layout_constraintStart_toStartOf="@id/chosen_label_icon"/>
+
+    <TextView
+        android:id="@+id/chosen_start_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="51.6052, 30.5161"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+
+        android:layout_marginStart="8dp"
+
+        app:layout_constraintStart_toEndOf="@id/chosen_start_icon"
+        app:layout_constraintTop_toTopOf="@id/chosen_start_icon"
+        app:layout_constraintBottom_toBottomOf="@id/chosen_start_icon"/>
+
+    <ImageView
+        android:id="@+id/chosen_finish_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/ic_chosen_finish_icon"
+        android:layout_marginStart="12dp"
+
+        app:layout_constraintStart_toEndOf="@id/chosen_start_text"
+        app:layout_constraintTop_toTopOf="@id/chosen_start_icon"
+        app:layout_constraintBottom_toBottomOf="@id/chosen_start_icon"/>
+
+    <TextView
+        android:id="@+id/chosen_finish_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="51.6052, 30.5161"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="11sp"
+
+        android:layout_marginStart="8dp"
+
+        app:layout_constraintStart_toEndOf="@id/chosen_finish_icon"
+        app:layout_constraintTop_toTopOf="@id/chosen_finish_icon"
+        app:layout_constraintBottom_toBottomOf="@id/chosen_finish_icon"/>
+
+    <TextView
+        android:id="@+id/chosen_region_short_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="Asarevichi, Asarevichsky old man(Grushka is the local name). From the exit of the Asarevichsky old man downstream (local name Grushka)"
+        android:textColor="@color/white"
+
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="18dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chosen_start_icon"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/chosen_show_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Show on the map"
+        android:textSize="13sp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+
+        android:background="@drawable/ripple_chosen_button"
+        android:padding="8dp"
+        android:layout_marginTop="24dp"
+
+        app:layout_constraintTop_toBottomOf="@id/chosen_region_short_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

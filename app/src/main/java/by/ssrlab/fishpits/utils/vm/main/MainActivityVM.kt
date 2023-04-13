@@ -234,7 +234,7 @@ class MainActivityVM : ViewModel() {
         dialog.setContentView(dialogBinding.root)
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
 
         val layoutParams = WindowManager.LayoutParams()
         layoutParams.copyFrom(dialog.window!!.attributes)
