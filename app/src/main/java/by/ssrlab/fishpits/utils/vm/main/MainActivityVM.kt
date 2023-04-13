@@ -241,18 +241,18 @@ class MainActivityVM : ViewModel() {
         layoutParams.width = 1000
         dialog.window?.attributes = layoutParams
 
-        dialogBinding.firstLanguage.setOnClickListener {
-            Toast.makeText(activity, "1st language", Toast.LENGTH_SHORT).show()
+        dialogBinding.langButton1.setOnClickListener {
+            Toast.makeText(activity, "English", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
-        dialogBinding.secondLanguage.setOnClickListener {
-            Toast.makeText(activity, "2nd language", Toast.LENGTH_SHORT).show()
+        dialogBinding.langButton2.setOnClickListener {
+            Toast.makeText(activity, "Беларуская", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
-        dialogBinding.thirdLanguage.setOnClickListener {
-            Toast.makeText(activity, "3rd language", Toast.LENGTH_SHORT).show()
+        dialogBinding.langButton3.setOnClickListener {
+            Toast.makeText(activity, "Русский", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
