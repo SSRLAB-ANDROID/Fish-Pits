@@ -1,6 +1,7 @@
 package by.ssrlab.fishpits.utils.vm.main
 
 import android.app.Dialog
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -21,21 +22,36 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
+import by.ssrlab.fishpits.LaunchActivity
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
+import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
 import by.ssrlab.fishpits.databinding.DialogLanguageBinding
+import by.ssrlab.fishpits.db.AppDB
 import by.ssrlab.fishpits.objects.Region
 import by.ssrlab.fishpits.objects.WaterObject
 import by.ssrlab.fishpits.objects.district.DistrictCommon
+import by.ssrlab.fishpits.objects.district.DistrictDescripted
+import by.ssrlab.fishpits.objects.district.DistrictForDB
 import by.ssrlab.fishpits.objects.point.PointCommon
-import by.ssrlab.fishpits.retrofit.`interface`.RetrofitServices
+import by.ssrlab.fishpits.objects.point.PointDescripted
+import by.ssrlab.fishpits.objects.point.PointForDB
+import by.ssrlab.fishpits.utils.retrofit.`interface`.RetrofitServices
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
 class MainVM : ViewModel() {
+
+    private val mediaJob = Job()
+    private val mediaScope = CoroutineScope(Dispatchers.Main + mediaJob)
 
     private val onMapBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -48,10 +64,31 @@ class MainVM : ViewModel() {
     private val toolbarTitle: MutableLiveData<String> = MutableLiveData()
 
     private lateinit var mService: RetrofitServices
+    private var mDisposable = CompositeDisposable()
     private val points = MutableLiveData<MutableList<PointCommon>>()
     private val regions = MutableLiveData<MutableList<Region>>()
     private val districts = MutableLiveData<MutableList<DistrictCommon>>()
     private val waterObjects = MutableLiveData<MutableList<WaterObject>>()
+
+    /**
+     * FOR LOGIC
+     */
+    fun loadPreferences(application: Application, activity: MainActivity){
+        val sharedPreferences = activity.getSharedPreferences(application.PREFERENCES, MODE_PRIVATE)
+        val language = sharedPreferences.getInt(application.LANGUAGE, 0)
+        application.setLanguage(language)
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun savePreferences(application: Application, activity: MainActivity, language: Int){
+        val sharedPreferences = activity.getSharedPreferences(application.PREFERENCES, MODE_PRIVATE) ?: return
+        with (sharedPreferences.edit()){
+            putInt(application.LANGUAGE, language)
+            apply()
+        }
+    }
 
     /**
      * FOR UI
@@ -209,7 +246,7 @@ class MainVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun setupNavView(binding: ActivityMainBinding, baseUIVM: BaseUIVM, activity: MainActivity) {
+    fun setupNavView(binding: ActivityMainBinding, baseUIVM: BaseUIVM, activity: MainActivity, application: Application) {
         binding.navigationAppDrawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_about_pr -> {
@@ -218,7 +255,7 @@ class MainVM : ViewModel() {
                 }
 
                 R.id.nav_lang -> {
-                    initLangDialog(activity)
+                    initLangDialog(activity, application)
                     true
                 }
 
@@ -239,7 +276,7 @@ class MainVM : ViewModel() {
     /**
      * FOR UI
      */
-    private fun initLangDialog(activity: MainActivity){
+    fun initLangDialog(activity: MainActivity, application: Application){
 
         val dialog = Dialog(activity)
         val dialogBinding = DialogLanguageBinding.inflate(LayoutInflater.from(activity))
@@ -255,17 +292,17 @@ class MainVM : ViewModel() {
         dialog.window?.attributes = layoutParams
 
         dialogBinding.langButton1.setOnClickListener {
-            Toast.makeText(activity, "English", Toast.LENGTH_SHORT).show()
+            savePreferences(application, activity, 1)
             dialog.dismiss()
         }
 
         dialogBinding.langButton2.setOnClickListener {
-            Toast.makeText(activity, "Беларуская", Toast.LENGTH_SHORT).show()
+            savePreferences(application, activity, 2)
             dialog.dismiss()
         }
 
         dialogBinding.langButton3.setOnClickListener {
-            Toast.makeText(activity, "Русский", Toast.LENGTH_SHORT).show()
+            savePreferences(application, activity,3)
             dialog.dismiss()
         }
 
@@ -309,51 +346,181 @@ class MainVM : ViewModel() {
     /**
      * FOR LOGIC
      */
-    fun loadData(){
+    fun loadData(application: Application){
 
-        getPoints()
-        getRegions()
-        getDistricts()
-        getWaterObjects()
+        val room = AppDB.getInstance(application.getContext())
+
+        getAllPointsFromDb(room)
+//        getPoints(room)
+//        getRegions(room)
+//        getDistricts(room)
+//        getWaterObjects(room)
     }
 
     /**
      * FOR LOGIC
      */
-    private fun getPoints(){
-        mService.getPoints()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe()
+    private fun getPoints(room: AppDB){
+        mDisposable.add(
+            mService.getPoints()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+
+                    points.value = it
+
+                    writePoints(room)
+
+                }, {})
+        )
     }
 
     /**
      * FOR LOGIC
      */
-    private fun getRegions(){
-        mService.getRegions()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe()
+    private fun getRegions(room: AppDB){
+        mDisposable.add(
+            mService.getRegions()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+
+                    regions.value = it
+
+                    mediaScope.launch {
+                        room.appDao.insertRegions(it)
+                    }
+
+                }, {})
+        )
     }
 
     /**
      * FOR LOGIC
      */
-    private fun getDistricts(){
-        mService.getDistricts()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe()
+    private fun getDistricts(room: AppDB){
+        mDisposable.add(
+            mService.getDistricts()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+
+                    districts.value = it
+
+                    writeDist(room)
+
+                }, {})
+        )
     }
 
     /**
      * FOR LOGIC
      */
-    private fun getWaterObjects(){
-        mService.getWaterObjects()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe()
+    private fun getWaterObjects(room: AppDB){
+        mDisposable.add(
+            mService.getWaterObjects()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+
+                    mediaScope.launch{
+                        room.appDao.insertWaterObjects(it)
+                    }
+
+                }, {})
+        )
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun writeDist(room: AppDB){
+        val distForDbArray = arrayListOf<DistrictForDB>()
+        val distDescripted = arrayListOf<DistrictDescripted>()
+
+        for (i in 0 until districts.value!!.size) {
+            with(districts.value!![i]) {
+                val distForDb = DistrictForDB(
+                    this.id,
+                    this.district.id,
+                    this.languageId,
+                    this.districtName,
+                    this.isVisible
+                )
+
+                distForDbArray.add(distForDb)
+                distDescripted.add(this.district)
+            }
+        }
+
+        mediaScope.launch {
+            room.appDao.insertDistrictDB(distForDbArray)
+            room.appDao.insertDistrictDescripted(distDescripted)
+        }
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun writePoints(room: AppDB){
+        val pointsForDbArray = arrayListOf<PointForDB>()
+        val pointsDescripted = arrayListOf<PointDescripted>()
+
+        for (i in 0 until points.value!!.size){
+            with(points.value!![i]){
+                val pointForDb = PointForDB(
+                    this.id,
+                    this.languageId,
+                    this.point.id,
+                    this.pointName,
+                    this.isVisible
+                )
+
+                pointsForDbArray.add(pointForDb)
+                pointsDescripted.add(this.point)
+            }
+        }
+
+        mediaScope.launch {
+            room.appDao.insertPoints(pointsForDbArray)
+            room.appDao.insertPointsDescripted(pointsDescripted)
+        }
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun getAllPointsFromDb(room: AppDB): List<PointCommon>{
+
+        val list = arrayListOf<PointCommon>()
+        var pointForDbArray = arrayListOf<PointForDB>()
+        var pointDescArray = arrayListOf<PointDescripted>()
+
+        mediaScope.launch {
+            println(room.appDao.getAllPoints())
+            pointForDbArray = room.appDao.getAllPoints() as ArrayList<PointForDB>
+            pointDescArray = room.appDao.getAllPointsDesc() as ArrayList<PointDescripted>
+        }
+
+        for (i in 0 until pointForDbArray.size){
+            val pointCommon = PointCommon(
+                pointForDbArray[i].id,
+                pointForDbArray[i].languageId,
+                pointDescArray[i],
+                pointForDbArray[i].pointName,
+                pointForDbArray[i].isVisible
+            )
+
+            list.add(pointCommon)
+        }
+
+        return list
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    fun dispose(){
+        mDisposable.dispose()
     }
 }

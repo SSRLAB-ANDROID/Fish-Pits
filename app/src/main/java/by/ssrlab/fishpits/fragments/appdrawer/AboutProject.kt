@@ -23,8 +23,10 @@ class AboutProject: BaseFragment() {
         binding = FragmentAboutProjectBinding.inflate(layoutInflater)
 
         activityMain.hideNavView()
-        activityMain.hideToolbar()
         activityMain.turnOffBottomNav()
+        activityMain.showToolbar()
+        activityVM.setToolbarTitle("About project")
+        activityMain.setToolbarPopBack()
 
         return binding.root
     }
@@ -33,6 +35,6 @@ class AboutProject: BaseFragment() {
         super.onDestroy()
 
         activityMain.turnOnBottomNav()
-        activityMain.showToolbar()
+        activityMain.setToolbarShowMenu()
     }
 }

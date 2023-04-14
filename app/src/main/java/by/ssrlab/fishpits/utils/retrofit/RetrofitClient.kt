@@ -1,4 +1,4 @@
-package by.ssrlab.fishpits.retrofit
+package by.ssrlab.fishpits.utils.retrofit
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

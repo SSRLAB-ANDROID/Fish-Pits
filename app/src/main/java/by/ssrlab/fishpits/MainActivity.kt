@@ -6,18 +6,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
+import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
-import by.ssrlab.fishpits.objects.Region
-import by.ssrlab.fishpits.objects.WaterObject
-import by.ssrlab.fishpits.objects.district.DistrictCommon
-import by.ssrlab.fishpits.objects.point.PointCommon
-import by.ssrlab.fishpits.retrofit.common.Common
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 import by.ssrlab.fishpits.utils.vm.main.MainVM
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var application: Application
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var toolbar: Toolbar
@@ -28,79 +24,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        application = Application()
+        activityVM.loadPreferences(application, this)
+        if (application.getLanguage() == 0){
+            activityVM.initLangDialog(this, application)
+        }
+
         toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
         setContentView(binding.root)
 
         activityVM.setDrawerListener(binding, this)
-
-        val mServices = Common.retrofitService
-        mServices.getPoints().subscribe(object: Observer<MutableList<PointCommon>>{
-            override fun onSubscribe(d: Disposable) {
-            }
-
-            override fun onError(e: Throwable) {
-            }
-
-            override fun onComplete() {
-            }
-
-            override fun onNext(t: MutableList<PointCommon>) {
-                println(t)
-            }
-        })
-
-        mServices.getRegions().subscribe(object: Observer<MutableList<Region>>{
-            override fun onSubscribe(d: Disposable) {
-            }
-
-            override fun onError(e: Throwable) {
-            }
-
-            override fun onComplete() {
-            }
-
-            override fun onNext(t: MutableList<Region>) {
-                println(t)
-            }
-        })
-
-        mServices.getDistricts().subscribe(object: Observer<MutableList<DistrictCommon>>{
-            override fun onSubscribe(d: Disposable) {
-            }
-
-            override fun onError(e: Throwable) {
-            }
-
-            override fun onComplete() {
-            }
-
-            override fun onNext(t: MutableList<DistrictCommon>) {
-                println(t)
-            }
-        })
-
-        mServices.getWaterObjects().subscribe(object: Observer<MutableList<WaterObject>>{
-            override fun onSubscribe(d: Disposable) {
-            }
-
-            override fun onError(e: Throwable) {
-            }
-
-            override fun onComplete() {
-            }
-
-            override fun onNext(t: MutableList<WaterObject>) {
-                println(t)
-            }
-        })
 
         binding.menuButton.setOnClickListener {
             binding.drawer.openDrawer(binding.navigationAppDrawer)
         }
 
+        showToolbar()
+
         activityVM.setObservers(this, binding)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        activityVM.dispose()
     }
 
     /**
@@ -152,6 +103,26 @@ class MainActivity : AppCompatActivity() {
     /**
      * FOR UI
      */
+    fun setToolbarPopBack(){
+        binding.menuButton.setImageResource(R.drawable.ic_pop_back)
+        binding.menuButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    /**
+     * FOR UI
+     */
+    fun setToolbarShowMenu(){
+        binding.menuButton.setImageResource(R.drawable.ic_menu)
+        binding.menuButton.setOnClickListener {
+            binding.drawer.openDrawer(binding.navigationAppDrawer)
+        }
+    }
+
+    /**
+     * FOR UI
+     */
     fun hideNavView(){
         binding.drawer.closeDrawer(binding.navigationAppDrawer)
     }
@@ -160,6 +131,6 @@ class MainActivity : AppCompatActivity() {
      * FOR UI
      */
     fun setupNavView(baseUIVM: BaseUIVM){
-        activityVM.setupNavView(binding, baseUIVM, this)
+        activityVM.setupNavView(binding, baseUIVM, this, application)
     }
 }

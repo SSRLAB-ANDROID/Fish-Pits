@@ -27,7 +27,7 @@ class ByRiverAdapter(
     override fun onBindViewHolder(holder: ByRiverHolder, position: Int) {
         with(holder) {
             with(list[position]) {
-                binding.itemByRiverName.text = "River ${position + 1}"
+                binding.itemByRiverName.text = "River $position + 1}"
                 binding.itemByRiver.setOnClickListener {
                     chosenUIVM.chosenOne = 1
                     activityVM.setToolbarTitle("River ${position + 1}")

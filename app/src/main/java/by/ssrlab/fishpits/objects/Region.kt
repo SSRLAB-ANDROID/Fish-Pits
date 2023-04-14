@@ -1,10 +1,14 @@
 package by.ssrlab.fishpits.objects
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Region(
 
     @SerializedName("id")
+    @PrimaryKey
     var id: Int = 0,
 
     @SerializedName("region_id")

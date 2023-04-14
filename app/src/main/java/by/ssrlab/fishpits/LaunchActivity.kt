@@ -7,15 +7,18 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.ActivityLaunchBinding
-import by.ssrlab.fishpits.retrofit.common.Common
-import by.ssrlab.fishpits.retrofit.`interface`.RetrofitServices
+import by.ssrlab.fishpits.utils.retrofit.common.Common
+import by.ssrlab.fishpits.utils.retrofit.`interface`.RetrofitServices
 import by.ssrlab.fishpits.utils.vm.main.MainVM
 
 import kotlinx.coroutines.*
 
 @SuppressLint("CustomSplashScreen")
 class LaunchActivity : AppCompatActivity() {
+
+    private lateinit var application: Application
 
     private lateinit var binding: ActivityLaunchBinding
     private val mediaJob = Job()
@@ -29,6 +32,9 @@ class LaunchActivity : AppCompatActivity() {
 
         binding = ActivityLaunchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        application = Application()
+        application.setContext(this)
 
         startActivity()
     }
@@ -51,7 +57,7 @@ class LaunchActivity : AppCompatActivity() {
 
         mService = Common.retrofitService
         activityVM.setServices(mService)
-        activityVM.loadData()
+        activityVM.loadData(application)
 
         mediaScope.launch {
             delay(5000)

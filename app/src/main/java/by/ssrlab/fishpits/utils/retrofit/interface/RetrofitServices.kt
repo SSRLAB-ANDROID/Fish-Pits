@@ -1,4 +1,4 @@
-package by.ssrlab.fishpits.retrofit.`interface`
+package by.ssrlab.fishpits.utils.retrofit.`interface`
 
 import by.ssrlab.fishpits.objects.Region
 import by.ssrlab.fishpits.objects.WaterObject
