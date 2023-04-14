@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         application = Application()
+        application.setContext(this)
+
+        activityVM.loadDataFromDb(application)
+
         activityVM.loadPreferences(application, this)
         if (application.getLanguage() == 0){
             activityVM.initLangDialog(this, application)
@@ -133,4 +137,9 @@ class MainActivity : AppCompatActivity() {
     fun setupNavView(baseUIVM: BaseUIVM){
         activityVM.setupNavView(binding, baseUIVM, this, application)
     }
+
+    /**
+     * FOR LOGIC
+     */
+    fun provideApplication() = application
 }

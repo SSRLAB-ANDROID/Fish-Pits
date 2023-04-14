@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.ItemByRiverBinding
+import by.ssrlab.fishpits.objects.WaterObject
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 import by.ssrlab.fishpits.utils.vm.main.MainVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 
 class ByRiverAdapter(
-    private val list: ArrayList<Int>,
+    private val list: ArrayList<WaterObject>,
     private val chosenUIVM: ChosenUIVM,
     private val activityVM: MainVM,
     private val uiVM: BaseUIVM
@@ -27,10 +28,11 @@ class ByRiverAdapter(
     override fun onBindViewHolder(holder: ByRiverHolder, position: Int) {
         with(holder) {
             with(list[position]) {
-                binding.itemByRiverName.text = "River $position + 1}"
+                binding.itemByRiverName.text = this.waterObjectName
                 binding.itemByRiver.setOnClickListener {
-                    chosenUIVM.chosenOne = 1
-                    activityVM.setToolbarTitle("River ${position + 1}")
+                    chosenUIVM.access = "water"
+                    chosenUIVM.chosenId = this.waterObjectId
+                    activityVM.setToolbarTitle(this.waterObjectName)
                     uiVM.navigate(R.id.action_regRivHolderFragment_to_chosenFragment)
                 }
             }

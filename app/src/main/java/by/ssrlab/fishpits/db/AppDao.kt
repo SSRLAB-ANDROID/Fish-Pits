@@ -1,6 +1,5 @@
 package by.ssrlab.fishpits.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,6 @@ import by.ssrlab.fishpits.objects.district.DistrictDescripted
 import by.ssrlab.fishpits.objects.district.DistrictForDB
 import by.ssrlab.fishpits.objects.point.PointDescripted
 import by.ssrlab.fishpits.objects.point.PointForDB
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
@@ -33,26 +31,6 @@ interface AppDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWaterObjects(items: List<WaterObject>)
-
-
-
-    @Query("SELECT * FROM districtForDb WHERE languageId = :languageId")
-    suspend fun getDistricts(languageId: Int): List<DistrictForDB>
-
-    @Query("SELECT * FROM districtDescripted WHERE id = :id")
-    suspend fun getDisctrictsDescripted(id: Int): List<DistrictDescripted>
-
-    @Query("SELECT * FROM pointForDb")
-    suspend fun getPoints(): List<PointForDB>
-
-    @Query("SELECT * FROM pointDescripted WHERE id = :id")
-    suspend fun getPointsDescripted(id: Int): List<PointDescripted>
-
-    @Query("SELECT * FROM region WHERE languageId = :languageId")
-    suspend fun getRegions(languageId: Int): List<Region>
-
-    @Query("SELECT * FROM waterObject WHERE languageId = :languageId")
-    suspend fun getWaterObjects(languageId: Int): List<WaterObject>
 
 
 

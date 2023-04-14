@@ -11,7 +11,6 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.widget.Toolbar
@@ -22,7 +21,6 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
-import by.ssrlab.fishpits.LaunchActivity
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.app.Application
@@ -65,10 +63,11 @@ class MainVM : ViewModel() {
 
     private lateinit var mService: RetrofitServices
     private var mDisposable = CompositeDisposable()
-    private val points = MutableLiveData<MutableList<PointCommon>>()
-    private val regions = MutableLiveData<MutableList<Region>>()
-    private val districts = MutableLiveData<MutableList<DistrictCommon>>()
-    private val waterObjects = MutableLiveData<MutableList<WaterObject>>()
+
+    val points = MutableLiveData<List<PointCommon>>()
+    val regions = MutableLiveData<List<Region>>()
+    val districts = MutableLiveData<List<DistrictCommon>>()
+    val waterObjects = MutableLiveData<List<WaterObject>>()
 
     /**
      * FOR LOGIC
@@ -77,6 +76,7 @@ class MainVM : ViewModel() {
         val sharedPreferences = activity.getSharedPreferences(application.PREFERENCES, MODE_PRIVATE)
         val language = sharedPreferences.getInt(application.LANGUAGE, 0)
         application.setLanguage(language)
+        application.languageSubj.onNext(language)
     }
 
     /**
@@ -292,18 +292,27 @@ class MainVM : ViewModel() {
         dialog.window?.attributes = layoutParams
 
         dialogBinding.langButton1.setOnClickListener {
-            savePreferences(application, activity, 1)
+            savePreferences(application, activity, 2)
+            application.languageSubj.onNext(2)
+            application.setLanguage(2)
             dialog.dismiss()
+            activity.hideNavView()
         }
 
         dialogBinding.langButton2.setOnClickListener {
-            savePreferences(application, activity, 2)
+            savePreferences(application, activity, 1)
+            application.languageSubj.onNext(1)
+            application.setLanguage(1)
             dialog.dismiss()
+            activity.hideNavView()
         }
 
         dialogBinding.langButton3.setOnClickListener {
             savePreferences(application, activity,3)
+            application.languageSubj.onNext(3)
+            application.setLanguage(3)
             dialog.dismiss()
+            activity.hideNavView()
         }
 
         dialog.show()
@@ -350,11 +359,30 @@ class MainVM : ViewModel() {
 
         val room = AppDB.getInstance(application.getContext())
 
-        getAllPointsFromDb(room)
-//        getPoints(room)
-//        getRegions(room)
-//        getDistricts(room)
-//        getWaterObjects(room)
+        getPoints(room)
+        getRegions(room)
+        getDistricts(room)
+        getWaterObjects(room)
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    fun loadDataFromDb(application: Application){
+
+        val room = AppDB.getInstance(application.getContext())
+
+        mediaScope.launch{
+            val pointsDb = readAllPointsFromDb(room)
+            val districtsDb = readAllDistrictsFromDb(room)
+            val regionsDb = room.appDao.getAllRegions()
+            val woDb = room.appDao.getAllWO()
+
+            points.value = pointsDb
+            districts.value = districtsDb
+            regions.value = regionsDb
+            waterObjects.value = woDb
+        }
     }
 
     /**
@@ -367,9 +395,9 @@ class MainVM : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({
 
-                    points.value = it
-
-                    writePoints(room)
+                    mediaScope.launch{
+                        writePoints(room, it)
+                    }
 
                 }, {})
         )
@@ -384,8 +412,6 @@ class MainVM : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-
-                    regions.value = it
 
                     mediaScope.launch {
                         room.appDao.insertRegions(it)
@@ -405,9 +431,9 @@ class MainVM : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({
 
-                    districts.value = it
-
-                    writeDist(room)
+                    mediaScope.launch{
+                        writeDist(room, it)
+                    }
 
                 }, {})
         )
@@ -434,12 +460,12 @@ class MainVM : ViewModel() {
     /**
      * FOR LOGIC
      */
-    private fun writeDist(room: AppDB){
+    private suspend fun writeDist(room: AppDB, list: MutableList<DistrictCommon>){
         val distForDbArray = arrayListOf<DistrictForDB>()
         val distDescripted = arrayListOf<DistrictDescripted>()
 
-        for (i in 0 until districts.value!!.size) {
-            with(districts.value!![i]) {
+        for (i in 0 until list.size) {
+            with(list[i]) {
                 val distForDb = DistrictForDB(
                     this.id,
                     this.district.id,
@@ -453,21 +479,19 @@ class MainVM : ViewModel() {
             }
         }
 
-        mediaScope.launch {
-            room.appDao.insertDistrictDB(distForDbArray)
-            room.appDao.insertDistrictDescripted(distDescripted)
-        }
+        room.appDao.insertDistrictDB(distForDbArray)
+        room.appDao.insertDistrictDescripted(distDescripted)
     }
 
     /**
      * FOR LOGIC
      */
-    private fun writePoints(room: AppDB){
+    private suspend fun writePoints(room: AppDB, list: MutableList<PointCommon>){
         val pointsForDbArray = arrayListOf<PointForDB>()
         val pointsDescripted = arrayListOf<PointDescripted>()
 
-        for (i in 0 until points.value!!.size){
-            with(points.value!![i]){
+        for (i in 0 until list.size){
+            with(list[i]){
                 val pointForDb = PointForDB(
                     this.id,
                     this.languageId,
@@ -481,37 +505,57 @@ class MainVM : ViewModel() {
             }
         }
 
-        mediaScope.launch {
-            room.appDao.insertPoints(pointsForDbArray)
-            room.appDao.insertPointsDescripted(pointsDescripted)
-        }
+        room.appDao.insertPoints(pointsForDbArray)
+        room.appDao.insertPointsDescripted(pointsDescripted)
     }
 
     /**
      * FOR LOGIC
      */
-    private fun getAllPointsFromDb(room: AppDB): List<PointCommon>{
+    private suspend fun readAllPointsFromDb(room: AppDB): List<PointCommon>{
 
         val list = arrayListOf<PointCommon>()
-        var pointForDbArray = arrayListOf<PointForDB>()
-        var pointDescArray = arrayListOf<PointDescripted>()
 
-        mediaScope.launch {
-            println(room.appDao.getAllPoints())
-            pointForDbArray = room.appDao.getAllPoints() as ArrayList<PointForDB>
-            pointDescArray = room.appDao.getAllPointsDesc() as ArrayList<PointDescripted>
-        }
+        val pointForDbArray: List<PointForDB> = room.appDao.getAllPoints()
+        val pointDescArray: List<PointDescripted> = room.appDao.getAllPointsDesc()
 
-        for (i in 0 until pointForDbArray.size){
+        for (i in pointForDbArray.indices){
+            val j = pointForDbArray[i].pointId
             val pointCommon = PointCommon(
                 pointForDbArray[i].id,
                 pointForDbArray[i].languageId,
-                pointDescArray[i],
+                pointDescArray.find { it.id == j }!!,
                 pointForDbArray[i].pointName,
                 pointForDbArray[i].isVisible
             )
 
             list.add(pointCommon)
+        }
+
+        return list
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private suspend fun readAllDistrictsFromDb(room: AppDB): List<DistrictCommon>{
+
+        val list = arrayListOf<DistrictCommon>()
+
+        val distForDbArray: List<DistrictForDB> = room.appDao.getAllDistDb()
+        val distDescArray: List<DistrictDescripted> = room.appDao.getAllDistDesc()
+
+        for (i in distForDbArray.indices) {
+            val j = distForDbArray[i].districtId
+            val districtCommon = DistrictCommon(
+                distForDbArray[i].id,
+                distDescArray.find { it.id == j }!!,
+                distForDbArray[i].languageId,
+                distForDbArray[i].districtName,
+                distForDbArray[i].isVisible
+            )
+
+            list.add(districtCommon)
         }
 
         return list

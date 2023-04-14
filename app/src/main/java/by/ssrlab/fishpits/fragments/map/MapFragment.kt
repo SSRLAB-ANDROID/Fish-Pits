@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.FragmentMapBinding
 import by.ssrlab.fishpits.fragments.map.sub.PointDescriptionFragment
 import by.ssrlab.fishpits.utils.base.BaseFragment

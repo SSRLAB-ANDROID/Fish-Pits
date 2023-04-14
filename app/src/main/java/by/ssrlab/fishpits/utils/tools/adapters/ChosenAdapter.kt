@@ -6,8 +6,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import by.ssrlab.fishpits.databinding.ItemChosenBinding
 import by.ssrlab.fishpits.fragments.bychosen.sub.MapPointFragment
+import by.ssrlab.fishpits.objects.point.PointCommon
+import by.ssrlab.fishpits.utils.vm.main.MainVM
 
-class ChosenAdapter(private val list: List<Any>, private val childFragmentManager: FragmentManager) :
+class ChosenAdapter(
+    private val list: List<PointCommon>,
+    private val activityVM: MainVM,
+    private val childFragmentManager: FragmentManager) :
     RecyclerView.Adapter<ChosenAdapter.ChosenHolder>() {
 
     inner class ChosenHolder(val binding: ItemChosenBinding) : RecyclerView.ViewHolder(binding.root)
@@ -23,7 +28,7 @@ class ChosenAdapter(private val list: List<Any>, private val childFragmentManage
         with(holder) {
             with(list[position]) {
                 binding.chosenNumber.text = (position + 1).toString()
-                binding.chosenLabel.text = "${position + 1} test district"
+                binding.chosenLabel.text = activityVM.districts.value!!.find{ it.district.id == this.point.pointDistrictId && it.languageId == this.languageId }!!.districtName
                 binding.chosenShowButton.setOnClickListener {
                     MapPointFragment().show(childFragmentManager, "mapPoint")
                 }
