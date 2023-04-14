@@ -25,10 +25,17 @@ import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
 import by.ssrlab.fishpits.databinding.DialogLanguageBinding
+import by.ssrlab.fishpits.objects.Region
+import by.ssrlab.fishpits.objects.WaterObject
+import by.ssrlab.fishpits.objects.district.DistrictCommon
+import by.ssrlab.fishpits.objects.point.PointCommon
+import by.ssrlab.fishpits.retrofit.`interface`.RetrofitServices
 import by.ssrlab.fishpits.utils.base.BaseUIVM
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlin.system.exitProcess
 
-class MainActivityVM : ViewModel() {
+class MainVM : ViewModel() {
 
     private val onMapBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -39,6 +46,12 @@ class MainActivityVM : ViewModel() {
     private var onTablesBackPressedCallback: OnBackPressedCallback? = null
 
     private val toolbarTitle: MutableLiveData<String> = MutableLiveData()
+
+    private lateinit var mService: RetrofitServices
+    private val points = MutableLiveData<MutableList<PointCommon>>()
+    private val regions = MutableLiveData<MutableList<Region>>()
+    private val districts = MutableLiveData<MutableList<DistrictCommon>>()
+    private val waterObjects = MutableLiveData<MutableList<WaterObject>>()
 
     /**
      * FOR UI
@@ -284,5 +297,63 @@ class MainActivityVM : ViewModel() {
                 }
             }
         })
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    fun setServices(mService: RetrofitServices) {
+        this.mService = mService
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    fun loadData(){
+
+        getPoints()
+        getRegions()
+        getDistricts()
+        getWaterObjects()
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun getPoints(){
+        mService.getPoints()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun getRegions(){
+        mService.getRegions()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun getDistricts(){
+        mService.getDistricts()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+    }
+
+    /**
+     * FOR LOGIC
+     */
+    private fun getWaterObjects(){
+        mService.getWaterObjects()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 }
