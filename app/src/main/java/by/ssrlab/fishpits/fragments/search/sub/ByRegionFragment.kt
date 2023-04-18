@@ -8,14 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.ssrlab.fishpits.MainActivity
+import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.FragmentByRegionBinding
+import by.ssrlab.fishpits.objects.Region
 import by.ssrlab.fishpits.utils.base.BaseUIVM
 import by.ssrlab.fishpits.utils.tools.adapters.regriv.ByRegionAdapter
 import by.ssrlab.fishpits.utils.vm.main.MainVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.tables.regriv.RegRivUIVM
+import io.reactivex.rxjava3.disposables.Disposable
 
 class ByRegionFragment: Fragment() {
+
+    private lateinit var langListener: Disposable
 
     private lateinit var binding: FragmentByRegionBinding
     private val uiVM: BaseUIVM by activityViewModels()
@@ -46,8 +51,33 @@ class ByRegionFragment: Fragment() {
         activityVM.setToolbarTitle("Regions")
         uiVM.setNavController(regRivUIVM.getNavController())
 
-        val list = arrayListOf(0, 1, 2, 3, 4, 5)
+        val application = (activity as MainActivity).provideApplication()
+
+        var list = initList(application.getLanguage())
+
         adapter = ByRegionAdapter(list, chosenUIVM, activityVM, uiVM)
         binding.regionRv.adapter = adapter
+
+        langListener = application.languageSubj.subscribe{
+            list = initList(it)
+            adapter = ByRegionAdapter(list, chosenUIVM, activityVM, uiVM)
+            binding.regionRv.swapAdapter(adapter, false)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        langListener.dispose()
+    }
+
+    private fun initList(language: Int): ArrayList<Region>{
+        val list = arrayListOf<Region>()
+
+        for (i in activityVM.regions.value!!){
+            if (i.languageId == language) list.add(i)
+        }
+
+        return list
     }
 }

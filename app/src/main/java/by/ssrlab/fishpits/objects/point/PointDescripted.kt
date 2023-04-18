@@ -1,10 +1,14 @@
 package by.ssrlab.fishpits.objects.point
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class PointDescripted(
 
     @SerializedName("id")
+    @PrimaryKey
     var id: Int = 0,
 
     @SerializedName("point_district_id")

@@ -1,7 +1,7 @@
-package by.ssrlab.fishpits.retrofit.common
+package by.ssrlab.fishpits.utils.retrofit.common
 
-import by.ssrlab.fishpits.retrofit.RetrofitClient
-import by.ssrlab.fishpits.retrofit.`interface`.RetrofitServices
+import by.ssrlab.fishpits.utils.retrofit.RetrofitClient
+import by.ssrlab.fishpits.utils.retrofit.`interface`.RetrofitServices
 
 object Common {
 

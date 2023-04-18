@@ -4,5 +4,6 @@ import by.ssrlab.fishpits.utils.base.BaseUIVM
 
 class ChosenUIVM: BaseUIVM() {
 
-    var chosenOne = 0
+    var access = ""
+    var chosenId = 0
 }
