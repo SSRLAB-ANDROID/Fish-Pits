@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.ssrlab.fishpits.MainActivity
+import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentByRiverBinding
 import by.ssrlab.fishpits.objects.WaterObject
 import by.ssrlab.fishpits.utils.base.BaseUIVM
@@ -47,7 +48,7 @@ class ByRiverFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        activityVM.setToolbarTitle("Rivers")
+        activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
         uiVM.setNavController(regRivUIVM.getNavController())
 
         val application = (activity as MainActivity).provideApplication()
@@ -57,17 +58,17 @@ class ByRiverFragment: Fragment() {
         adapter = ByRiverAdapter(list, chosenUIVM, activityVM, uiVM)
         binding.riverRv.adapter = adapter
 
-        langListener = application.languageSubj.subscribe{
-            list = initList(it)
-            adapter = ByRiverAdapter(list, chosenUIVM, activityVM, uiVM)
-            binding.riverRv.swapAdapter(adapter, false)
+        if (regRivUIVM.rivLangListener == null) {
+            langListener = application.languageSubj.subscribe {
+                list = initList(it)
+                adapter = ByRiverAdapter(list, chosenUIVM, activityVM, uiVM)
+                binding.riverRv.swapAdapter(adapter, false)
+            }
+
+            regRivUIVM.rivLangListener = langListener
+        } else {
+            langListener = regRivUIVM.rivLangListener!!
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        langListener.dispose()
     }
 
     private fun initList(language: Int): ArrayList<WaterObject>{

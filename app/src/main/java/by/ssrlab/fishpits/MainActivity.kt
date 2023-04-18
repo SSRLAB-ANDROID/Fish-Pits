@@ -30,9 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         activityVM.loadDataFromDb(application)
 
-        activityVM.loadPreferences(application, this)
+        activityVM.loadPreferences(application, this, binding)
         if (application.getLanguage() == 0){
-            activityVM.initLangDialog(this, application)
+            activityVM.initLangDialog(this, application, binding)
         }
 
         toolbar = binding.toolbar
@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        activityVM.setDrawerListener(binding, this)
+        turnOnBottomNav()
+
+        activityVM.initListener(binding, this)
+        activityVM.setDrawerListener(binding)
 
         binding.menuButton.setOnClickListener {
             binding.drawer.openDrawer(binding.navigationAppDrawer)

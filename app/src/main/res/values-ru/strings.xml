@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Рыбные ямы</string>
+
+    <!-- Map point description -->
+    <string name="river">Река</string>
+    <string name="region">Область</string>
+    <string name="district">Район</string>
+    <string name="pit_started">Начало</string>
+    <string name="pit_finishes">Конец</string>
+    <string name="description">Описание</string>
+
+    <!-- About project -->
+    <string name="about_project"><b>Fish Pits Navigator</b> представляет интерактивную карту зимовальных ям с их координатами. Эти места недоступны для рыбалки в соотвествии с Указом Президента Республики Беларусь \№284 \"О рыболовстве и рыболовном хозяйстве\". Охранные меры введены с целью предотвращения массового вылова рыбы в период зимовки, когда она многочисленными группами залегает в ямах и других укрытиях и проводит зимний периодв неподвижном состоянии, становясь легкой добычей для недобросовестных рыболовов. Вместе мы можем сохранить виды рыб, которые являются природным богатством рек, озер и водохранилищ Беларуси. Ловите рыбу, не нарушая закон\!</string>
+    <string name="about_project_title">Про проект</string>
+
+    <!-- Tables fragment -->
+    <string name="by_regions">По областям</string>
+    <string name="by_regions_desc">Таблицы по регионам помогают отыскать нужный район и конкретные координаты зимовальной ямы.</string>
+    <string name="by_rivers">По рекам</string>
+    <string name="by_rivers_desc">Таблицы по рекам помогают отыскать конкретные координаты зимовальной ямы, ориентируясь на расположение и протяженность реки.</string>
+
+    <!-- Bottom navigation -->
+    <string name="bottom_map">Карта</string>
+    <string name="bottom_tables">Таблицы</string>
+
+    <!-- Drawer -->
+    <string name="settings">Настройки</string>
+    <string name="language">Язык</string>
+    <string name="about_us">Про нас</string>
+    <string name="about_project_drawer">Про проект</string>
+    <string name="write_to_developers">Написать разработчикам</string>
+
+    <!-- Fragment titles -->
+    <string name="map_fragment">Карта</string>
+    <string name="tables_fragment">Таблицы</string>
+</resources>

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.ssrlab.fishpits.MainActivity
-import by.ssrlab.fishpits.app.Application
+import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentByRegionBinding
 import by.ssrlab.fishpits.objects.Region
 import by.ssrlab.fishpits.utils.base.BaseUIVM
@@ -48,7 +48,7 @@ class ByRegionFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        activityVM.setToolbarTitle("Regions")
+        activityVM.setToolbarTitle(resources.getString(R.string.by_regions))
         uiVM.setNavController(regRivUIVM.getNavController())
 
         val application = (activity as MainActivity).provideApplication()
@@ -58,17 +58,17 @@ class ByRegionFragment: Fragment() {
         adapter = ByRegionAdapter(list, chosenUIVM, activityVM, uiVM)
         binding.regionRv.adapter = adapter
 
-        langListener = application.languageSubj.subscribe{
-            list = initList(it)
-            adapter = ByRegionAdapter(list, chosenUIVM, activityVM, uiVM)
-            binding.regionRv.swapAdapter(adapter, false)
+        if (regRivUIVM.regLangListener == null) {
+            langListener = application.languageSubj.subscribe {
+                list = initList(it)
+                adapter = ByRegionAdapter(list, chosenUIVM, activityVM, uiVM)
+                binding.regionRv.swapAdapter(adapter, false)
+            }
+
+            regRivUIVM.regLangListener = langListener
+        } else {
+            langListener = regRivUIVM.regLangListener!!
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        langListener.dispose()
     }
 
     private fun initList(language: Int): ArrayList<Region>{

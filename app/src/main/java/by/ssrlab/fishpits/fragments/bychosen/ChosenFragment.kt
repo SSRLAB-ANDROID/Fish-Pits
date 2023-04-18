@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentChosenBinding
 import by.ssrlab.fishpits.objects.point.PointCommon
 import by.ssrlab.fishpits.utils.base.BaseFragment
@@ -19,7 +20,6 @@ class ChosenFragment: BaseFragment() {
 
     private lateinit var binding: FragmentChosenBinding
     private lateinit var adapter: ChosenAdapter
-    private lateinit var list: ArrayList<Int>
     override val uiVM: ChosenUIVM by activityViewModels() /** Common with ChosenFragment */
 
     override fun onCreateView(
@@ -54,23 +54,33 @@ class ChosenFragment: BaseFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        langListener.dispose()
-    }
-
     private fun initList(language: Int): ArrayList<PointCommon>{
 
         val list = arrayListOf<PointCommon>()
 
         for (i in activityVM.points.value!!){
-            if (uiVM.access == "region"){}
+            if (uiVM.access == "region"){
+                if (i.languageId == language){
+                    for (j in activityVM.districts.value!!){
+                        if (j.district.regionId == uiVM.chosenId && i.point.pointDistrictId == j.district.id && j.languageId == language) list.add(i)
+                    }
+                }
+            }
             else {
                 if (i.languageId == language && i.point.waterObjId == uiVM.chosenId) list.add(i)
             }
         }
 
         return list
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        langListener.dispose()
+
+        if (uiVM.access == "region"){
+            activityVM.setToolbarTitle(resources.getString(R.string.by_regions))
+        } else activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
     }
 }

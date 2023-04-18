@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">Fish Pits</string>
+
+    <!-- Map point description -->
+    <string name="river">River</string>
+    <string name="region">Region</string>
+    <string name="district">District</string>
+    <string name="pit_started">Pit starts</string>
+    <string name="pit_finishes">Pit finishes</string>
+    <string name="description">Description</string>
+
+    <!-- About project -->
+    <string name="about_project"><b>Fish Pits Navigator</b> provides an interactive map of wintering pits with their coordinates. These places are not available for fishing in accordance with Decree of the President of the Republic of Belarus No. 284 \"On Fishing and Fisheries\". Security measures to prevent the mass fish catching during the fish wintering have been introduced. In this period numerous groups of fish lies down in pits and other shelters to spends the winter in a motionless state, thereby becoming an easy prey for unscrupulous fishermen. Together we can save fish species, which are the natural wealth of the rivers, lakes and reservoirs of Belarus. Fish without breaking the law\!</string>
+    <string name="about_project_title">About project</string>
+
+    <!-- Tables fragment -->
+    <string name="by_regions">By Regions</string>
+    <string name="by_regions_desc">The region tables help to find the desired area and the specific coordinates of the wintering pit.</string>
+    <string name="by_rivers">By Rivers</string>
+    <string name="by_rivers_desc">The river tables help to find the specific coordinates of the wintering pit, focusing on the river location and length.</string>
+
+    <!-- Bottom navigation -->
+    <string name="bottom_map">Map</string>
+    <string name="bottom_tables">Tables</string>
+
+    <!-- Drawer -->
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="about_us">About Us</string>
+    <string name="about_project_drawer">About Project</string>
+    <string name="write_to_developers">Write To Developers</string>
+
+    <!-- Fragment titles -->
+    <string name="map_fragment">Map</string>
+    <string name="tables_fragment">Tables</string>
 </resources>

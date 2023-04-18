@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:text="By Regions"
+            android:text="@string/by_regions"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:text="The table by region can help you find the area you need and the specific coordinates of the winter pit"
+            android:text="@string/by_regions_desc"
             android:textColor="@color/white"
             android:textSize="18sp"
 
@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:text="By Rivers"
+            android:text="@string/by_rivers"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -107,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:text="The river table will be able to help you in finding specific coordinates of the wintering pit by focusing on the location and length of the river"
+            android:text="@string/by_rivers_desc"
             android:textColor="@color/white"
             android:textSize="18sp"
 
