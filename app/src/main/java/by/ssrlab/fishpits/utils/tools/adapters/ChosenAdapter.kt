@@ -9,10 +9,12 @@ import by.ssrlab.fishpits.databinding.ItemChosenBinding
 import by.ssrlab.fishpits.fragments.bychosen.sub.MapPointFragment
 import by.ssrlab.fishpits.objects.point.PointCommon
 import by.ssrlab.fishpits.utils.vm.main.MainVM
+import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 
 class ChosenAdapter(
     private val list: List<PointCommon>,
     private val activityVM: MainVM,
+    private val uiVM: ChosenUIVM,
     private val childFragmentManager: FragmentManager) :
     RecyclerView.Adapter<ChosenAdapter.ChosenHolder>() {
 
@@ -34,7 +36,8 @@ class ChosenAdapter(
                 binding.chosenFinishText.text = "${this.point.latFinish}, ${this.point.lngFinish}"
                 binding.chosenRegionShortDesc.text = Html.fromHtml(this.pointName, Html.FROM_HTML_MODE_LEGACY)
                 binding.chosenShowButton.setOnClickListener {
-                    MapPointFragment().show(childFragmentManager, "mapPoint")
+                    uiVM.setPointGeo(this.point)
+                    MapPointFragment().show(childFragmentManager, "${this.id}_mapPoint")
                 }
             }
         }

@@ -17,7 +17,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 class ChosenFragment: BaseFragment() {
 
     private lateinit var langListener: Disposable
-
     private lateinit var binding: FragmentChosenBinding
     private lateinit var adapter: ChosenAdapter
     override val uiVM: ChosenUIVM by activityViewModels() /** Common with ChosenFragment */
@@ -44,12 +43,12 @@ class ChosenFragment: BaseFragment() {
 
         var list = initList(application.getLanguage())
 
-        adapter = ChosenAdapter(list, activityVM, childFragmentManager)
+        adapter = ChosenAdapter(list, activityVM, uiVM, childFragmentManager)
         binding.points.adapter = adapter
 
         langListener = application.languageSubj.subscribe {
             list = initList(it)
-            adapter = ChosenAdapter(list, activityVM, childFragmentManager)
+            adapter = ChosenAdapter(list, activityVM, uiVM, childFragmentManager)
             binding.points.swapAdapter(adapter, false)
         }
     }

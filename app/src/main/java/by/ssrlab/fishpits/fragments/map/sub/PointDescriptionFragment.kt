@@ -21,7 +21,7 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
     private val activityVM: MainVM by activityViewModels()
     private val pointVM: MapPointVM by activityViewModels() /** Shared with map */
 
-    override fun getTheme() = R.style.PointDescBottomSheetDialogTheme
+    override fun getTheme() = R.style.DescBottomSheetDialogTheme
 
     override fun onCreateView(
         inflater: LayoutInflater,

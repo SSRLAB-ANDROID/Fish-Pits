@@ -1,5 +1,7 @@
 package by.ssrlab.fishpits.fragments.map
 
+import android.content.Context.LOCATION_SERVICE
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,36 +57,27 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != 1
-        ) {
-            ActivityCompat.requestPermissions(
-                activityMain,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                1
-            )
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != 1) {
+            ActivityCompat.requestPermissions(activityMain, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
         }
 
         map.isMyLocationEnabled = true
 
-        val fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(activityMain)
+        val locationManager = activityMain.getSystemService(LOCATION_SERVICE) as LocationManager
+
+        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activityMain)
         fusedLocationProviderClient.lastLocation.addOnSuccessListener {
             val pos: CameraPosition = map.cameraPosition
             val newPos =
-                CameraPosition.Builder(pos).target(LatLng(it.latitude, it.longitude)).zoom(12f)
-                    .tilt(0f).build()
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) CameraPosition.Builder(pos).target(LatLng(it.latitude, it.longitude)).zoom(12f).tilt(0f).build()
+                else CameraPosition.Builder(pos).target(LatLng(53.893009, 27.567444)).zoom(8f).tilt(0f).build()
             map.animateCamera(CameraUpdateFactory.newCameraPosition(newPos))
         }
 
         activityVM.points.observe(viewLifecycleOwner) {
             for (i in it) {
                 if (i.languageId == activityMain.provideApplication().getLanguage()) {
-                    map.addMarker(
-                        MarkerOptions().position(
-                            LatLng(i.point.latStart, i.point.lngStart)).icon(uiVM.bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
+                    map.addMarker(MarkerOptions().position(LatLng(i.point.latStart, i.point.lngStart)).icon(uiVM.bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
                     if (i.point.latFinish != 0.0) {
                         map.addPolyline(PolylineOptions().add(LatLng(i.point.latStart, i.point.lngStart), LatLng(i.point.latFinish, i.point.lngFinish)).color(R.color.marker_unactivated).width(10F))
                     }
