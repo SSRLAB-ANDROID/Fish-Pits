@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentRegrivHolderBinding
 import by.ssrlab.fishpits.fragments.search.adapter.PagerAdapter
 import by.ssrlab.fishpits.utils.base.BaseFragment
@@ -32,8 +33,8 @@ class RegRivHolderFragment: BaseFragment() {
         binding.viewPager.currentItem = uiVM.currentPos
 
         TabLayoutMediator(binding.tabTitles, binding.viewPager){ tab, position ->
-            if (position == 0) tab.text = "Regions"
-            else if (position == 1) tab.text = "Rivers"
+            if (position == 0) tab.text = resources.getString(R.string.by_regions)
+            else if (position == 1) tab.text = resources.getString(R.string.by_rivers)
         }.attach()
 
         return binding.root

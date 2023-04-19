@@ -44,6 +44,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.Locale
 import kotlin.system.exitProcess
 
 class MainVM : ViewModel() {
@@ -69,23 +70,37 @@ class MainVM : ViewModel() {
     val districts = MutableLiveData<List<DistrictCommon>>()
     val waterObjects = MutableLiveData<List<WaterObject>>()
 
+    private lateinit var drawerListener: DrawerLayout.DrawerListener
+
     /**
      * FOR LOGIC
      */
-    fun loadPreferences(application: Application, activity: MainActivity){
+    fun loadPreferences(application: Application, activity: MainActivity, binding: ActivityMainBinding){
         val sharedPreferences = activity.getSharedPreferences(application.PREFERENCES, MODE_PRIVATE)
         val language = sharedPreferences.getInt(application.LANGUAGE, 0)
+        val locale = sharedPreferences.getString(application.LOCALE, "en")
+
         application.setLanguage(language)
+        locale?.let { Locale(it) }?.let { application.setLocale(it) }
+
+        val config = application.getContext().resources.configuration
+        config.setLocale(Locale(locale!!))
+
+        application.getContext().resources.updateConfiguration(config, null)
+
         application.languageSubj.onNext(language)
+
+        inflateDrawerMenu(binding)
     }
 
     /**
      * FOR LOGIC
      */
-    private fun savePreferences(application: Application, activity: MainActivity, language: Int){
+    private fun savePreferences(application: Application, activity: MainActivity, language: Int, locale: String){
         val sharedPreferences = activity.getSharedPreferences(application.PREFERENCES, MODE_PRIVATE) ?: return
         with (sharedPreferences.edit()){
             putInt(application.LANGUAGE, language)
+            putString(application.LOCALE, locale)
             apply()
         }
     }
@@ -255,7 +270,7 @@ class MainVM : ViewModel() {
                 }
 
                 R.id.nav_lang -> {
-                    initLangDialog(activity, application)
+                    initLangDialog(activity, application, binding)
                     true
                 }
 
@@ -276,7 +291,7 @@ class MainVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun initLangDialog(activity: MainActivity, application: Application){
+    fun initLangDialog(activity: MainActivity, application: Application, activityBinding: ActivityMainBinding){
 
         val dialog = Dialog(activity)
         val dialogBinding = DialogLanguageBinding.inflate(LayoutInflater.from(activity))
@@ -292,27 +307,57 @@ class MainVM : ViewModel() {
         dialog.window?.attributes = layoutParams
 
         dialogBinding.langButton1.setOnClickListener {
-            savePreferences(application, activity, 2)
+            savePreferences(application, activity, 2, "en")
             application.languageSubj.onNext(2)
             application.setLanguage(2)
+
+            val loc = Locale("en")
+            application.setLocale(loc)
+            val config = application.getContext().resources.configuration
+            config.setLocale(loc)
+
             dialog.dismiss()
             activity.hideNavView()
+
+            removeDrawerListener(activityBinding)
+
+            activity.recreate()
         }
 
         dialogBinding.langButton2.setOnClickListener {
-            savePreferences(application, activity, 1)
+            savePreferences(application, activity, 1, "be")
             application.languageSubj.onNext(1)
             application.setLanguage(1)
+
+            val loc = Locale("be")
+            application.setLocale(loc)
+            val config = application.getContext().resources.configuration
+            config.setLocale(loc)
+
             dialog.dismiss()
             activity.hideNavView()
+
+            removeDrawerListener(activityBinding)
+
+            activity.recreate()
         }
 
         dialogBinding.langButton3.setOnClickListener {
-            savePreferences(application, activity,3)
+            savePreferences(application, activity,3, "ru")
             application.languageSubj.onNext(3)
             application.setLanguage(3)
+
+            val loc = Locale("ru")
+            application.setLocale(loc)
+            val config = application.getContext().resources.configuration
+            config.setLocale(loc)
+
             dialog.dismiss()
             activity.hideNavView()
+
+            removeDrawerListener(activityBinding)
+
+            activity.recreate()
         }
 
         dialog.show()
@@ -321,8 +366,29 @@ class MainVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun setDrawerListener(binding: ActivityMainBinding, activity: MainActivity){
-        binding.drawer.addDrawerListener(object: DrawerLayout.DrawerListener {
+    fun setDrawerListener(binding: ActivityMainBinding){
+        binding.drawer.addDrawerListener(drawerListener)
+    }
+
+    /**
+     * FOR UI
+     */
+    private fun inflateDrawerMenu(binding: ActivityMainBinding){
+        binding.navigationAppDrawer.inflateMenu(R.menu.drawer_menu)
+    }
+
+    /**
+     * FOR UI
+     */
+    private fun removeDrawerListener(binding: ActivityMainBinding){
+        binding.drawer.removeDrawerListener(drawerListener)
+    }
+
+    /**
+     * FOR UI
+     */
+    fun initListener(binding: ActivityMainBinding, activity: MainActivity){
+        drawerListener = object: DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
 
             override fun onDrawerOpened(drawerView: View) {}
@@ -342,7 +408,7 @@ class MainVM : ViewModel() {
                     }
                 }
             }
-        })
+        }
     }
 
     /**

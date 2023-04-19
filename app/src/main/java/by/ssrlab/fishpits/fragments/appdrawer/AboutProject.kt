@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentAboutProjectBinding
 import by.ssrlab.fishpits.utils.base.BaseFragment
 import by.ssrlab.fishpits.utils.base.BaseUIVM
@@ -25,7 +26,7 @@ class AboutProject: BaseFragment() {
         activityMain.hideNavView()
         activityMain.turnOffBottomNav()
         activityMain.showToolbar()
-        activityVM.setToolbarTitle("About project")
+        activityVM.setToolbarTitle(resources.getString(R.string.about_project_title))
         activityMain.setToolbarPopBack()
 
         return binding.root

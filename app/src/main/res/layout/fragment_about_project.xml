@@ -29,9 +29,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="66dp"
 
-        android:text="The interactive map of the location of wintering pits includes a list of wintering pits in fishing grounds with an indication of their geographical coordinates.
-In the new edition of the Rules of Amateur fishing (Decree of the President of the Republic of Belarus 'On Fishing and Fisheries' dated July 21, 2021 No. 284), a norm of prohibition on all fishing within the boundaries of wintering pits has been introduced.
-Users of the interactive map - tenants of fishing grounds, amateur fishermen will be able to plan the fishing process without violating the current legislation."
+        android:text="@string/about_project"
         android:textColor="@color/white"
         android:textSize="18sp"
 

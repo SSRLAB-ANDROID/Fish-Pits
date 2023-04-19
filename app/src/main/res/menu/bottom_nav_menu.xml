@@ -4,11 +4,11 @@
     <item
         android:id="@+id/map_fragment"
         android:icon="@drawable/selector_map"
-        android:title="Map" />
+        android:title="@string/bottom_map" />
 
     <item
         android:id="@+id/tables_fragment"
         android:icon="@drawable/selector_tables"
-        android:title="Tables" />
+        android:title="@string/bottom_tables" />
 
 </menu>

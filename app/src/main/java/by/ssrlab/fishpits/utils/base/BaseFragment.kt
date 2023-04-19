@@ -34,6 +34,8 @@ abstract class BaseFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        activityMain.setupNavView(uiVM)
+
         when (uiVM) {
             is MapUIVM -> activityMain.handleOnBackPressed(true)
 

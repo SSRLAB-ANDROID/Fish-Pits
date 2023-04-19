@@ -31,7 +31,7 @@ class ByRegionAdapter(
                 binding.itemByRegionName.text = this.regionName
                 binding.itemByRegion.setOnClickListener {
                     chosenUIVM.access = "region"
-                    chosenUIVM.chosenId = 0
+                    chosenUIVM.chosenId = this.regionId
                     activityVM.setToolbarTitle(this.regionName)
                     uiVM.navigate(R.id.action_regRivHolderFragment_to_chosenFragment)
                 }
