@@ -71,6 +71,8 @@ class MainVM : ViewModel() {
     val waterObjects = MutableLiveData<List<WaterObject>>()
 
     private lateinit var drawerListener: DrawerLayout.DrawerListener
+    private var navController: NavController? = null
+    val mapIsInit = MutableLiveData<Boolean>()
 
     /**
      * FOR LOGIC
@@ -186,74 +188,79 @@ class MainVM : ViewModel() {
     /**
      * FOR UI
      */
-    fun setupBottomNavFunc(
-        binding: ActivityMainBinding,
-        primaryNavController: NavController
-    ) {
+    fun setupBottomNavFunc(binding: ActivityMainBinding, activity: MainActivity) {
 
-        binding.bottomNavigation.setupWithNavController(primaryNavController)
+        if (navController != null) {
+            binding.bottomNavigation.setupWithNavController(navController!!)
 
-        binding.bottomNavigation.setOnItemSelectedListener {
+            binding.bottomNavigation.setOnItemSelectedListener {
 
-            when (it.itemId) {
+                when (it.itemId) {
 
-                R.id.map_fragment -> {
+                    R.id.map_fragment -> {
 
-                    if (binding.bottomNavigation.selectedItemId != R.id.map_fragment) {
-                        binding.bottomNavigation.menu.findItem(R.id.map_fragment).isChecked = true
+                        if (binding.bottomNavigation.selectedItemId != R.id.map_fragment) {
+                            binding.bottomNavigation.menu.findItem(R.id.map_fragment).isChecked =
+                                true
 
-                        primaryNavController.navigate(
-                            R.id.map_fragment,
-                            bundleOf(),
-                            navOptions {
-                                anim {
-                                    enter = R.anim.nav_slide_in_right
-                                    popEnter = R.anim.nav_slide_in_left
-                                    popExit = R.anim.nav_slide_out_left
-                                    exit = R.anim.nav_slide_out_right
-                                }
-                            })
+                            navController!!.navigate(
+                                R.id.map_fragment,
+                                bundleOf(),
+                                navOptions {
+                                    anim {
+                                        enter = R.anim.nav_slide_in_right
+                                        popEnter = R.anim.nav_slide_in_left
+                                        popExit = R.anim.nav_slide_out_left
+                                        exit = R.anim.nav_slide_out_right
+                                    }
+                                })
+                        }
+                        true
                     }
-                    true
+
+                    R.id.tables_fragment -> {
+                        if (binding.bottomNavigation.selectedItemId != R.id.tables_fragment) {
+                            binding.bottomNavigation.menu.findItem(R.id.tables_fragment).isChecked =
+                                true
+
+                            navController!!.navigate(
+                                R.id.tables_fragment,
+                                bundleOf(),
+                                navOptions {
+                                    anim {
+                                        enter = R.anim.nav_slide_in_left
+                                        popEnter = R.anim.nav_slide_in_right
+                                        popExit = R.anim.nav_slide_out_right
+                                        exit = R.anim.nav_slide_out_left
+                                    }
+                                })
+                        }
+                        true
+                    }
+
+                    else -> false
                 }
+            }
 
-                R.id.tables_fragment -> {
-                    if (binding.bottomNavigation.selectedItemId != R.id.tables_fragment) {
-                        binding.bottomNavigation.menu.findItem(R.id.tables_fragment).isChecked = true
+            binding.bottomNavigation.setOnItemReselectedListener {
 
-                        primaryNavController.navigate(
+                when (it.itemId) {
+                    R.id.tables_fragment -> {
+                        navController!!.navigate(
                             R.id.tables_fragment,
                             bundleOf(),
                             navOptions {
                                 anim {
-                                    enter = R.anim.nav_slide_in_left
-                                    popEnter = R.anim.nav_slide_in_right
-                                    popExit = R.anim.nav_slide_out_right
-                                    exit = R.anim.nav_slide_out_left
+                                    enter = R.anim.nav_slide_in_right
+                                    exit = R.anim.nav_slide_out_right
                                 }
                             })
                     }
-                    true
                 }
-
-                else -> false
             }
-        }
-
-        binding.bottomNavigation.setOnItemReselectedListener {
-
-            when (it.itemId) {
-                R.id.tables_fragment -> {
-                    primaryNavController.navigate(
-                        R.id.tables_fragment,
-                        bundleOf(),
-                        navOptions {
-                            anim {
-                                enter = R.anim.nav_slide_in_right
-                                exit = R.anim.nav_slide_out_right
-                            }
-                        })
-                }
+        } else {
+            mapIsInit.observe(activity){
+                setupBottomNavFunc(binding, activity)
             }
         }
     }
@@ -625,6 +632,10 @@ class MainVM : ViewModel() {
         }
 
         return list
+    }
+
+    fun setNavController(navController: NavController){
+        this.navController = navController
     }
 
     /**
