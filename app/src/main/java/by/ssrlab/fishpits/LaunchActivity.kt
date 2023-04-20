@@ -1,5 +1,6 @@
 package by.ssrlab.fishpits
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.ActivityLaunchBinding
 import by.ssrlab.fishpits.utils.retrofit.common.Common
@@ -32,6 +34,8 @@ class LaunchActivity : AppCompatActivity() {
 
         binding = ActivityLaunchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        requestPermission()
 
         application = Application()
         application.setContext(this)
@@ -65,5 +69,13 @@ class LaunchActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
+    }
+
+    private fun requestPermission(){
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            1
+        )
     }
 }
