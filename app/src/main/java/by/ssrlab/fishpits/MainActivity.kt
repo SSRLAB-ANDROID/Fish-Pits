@@ -5,7 +5,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.navigation.NavController
 import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.ActivityMainBinding
 import by.ssrlab.fishpits.utils.base.BaseUIVM
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         turnOnBottomNav()
+        activityVM.setupBottomNavFunc(binding, this)
 
         activityVM.initListener(binding, this)
         activityVM.setDrawerListener(binding)
@@ -84,13 +84,6 @@ class MainActivity : AppCompatActivity() {
      */
     fun turnOffBottomNav(){
         activityVM.turnOffBottomNav(binding, this)
-    }
-
-    /**
-     * FOR UI
-     */
-    fun setBottomNav(navController: NavController){
-        activityVM.setupBottomNavFunc(binding, navController)
     }
 
     /**

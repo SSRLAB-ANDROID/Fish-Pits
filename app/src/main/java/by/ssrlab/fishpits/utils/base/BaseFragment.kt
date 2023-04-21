@@ -29,6 +29,9 @@ abstract class BaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         uiVM.defineNavController(view)
+
+        activityVM.setNavController(uiVM.getNavController())
+        activityVM.mapIsInit.value = true
     }
 
     override fun onResume() {

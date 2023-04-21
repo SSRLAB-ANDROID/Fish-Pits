@@ -205,7 +205,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="Test river"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="14sp"
@@ -222,7 +221,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="Test region"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="14sp"
@@ -239,7 +237,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="Test district"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="14sp"
@@ -256,7 +253,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="51.6052\n30.5161"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="14sp"
@@ -275,7 +271,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="51.5945\n30.5077"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="14sp"
@@ -294,7 +289,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="From the exit of the Asarevichsky old man downstream (local name Grushka)"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="14sp"
