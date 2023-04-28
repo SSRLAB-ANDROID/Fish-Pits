@@ -15,6 +15,7 @@ import androidx.fragment.app.activityViewModels
 import by.ssrlab.fishpits.MainActivity
 import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.BottomFragmentMapPointBinding
+import by.ssrlab.fishpits.utils.vm.main.MainVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.bychosen.ChosenUIVM
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,6 +29,7 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
 
     private lateinit var binding: BottomFragmentMapPointBinding
     private lateinit var map: GoogleMap
+    private val activityVM: MainVM by activityViewModels()
     private val chosenUIVM: ChosenUIVM by activityViewModels() /** Common with ChosenFragment */
 
     override fun getTheme() = R.style.DescBottomSheetDialogTheme
@@ -60,7 +62,6 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
         }
     }
 
-
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
@@ -75,7 +76,18 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
         val newPos = CameraPosition.Builder(pos).target(LatLng(chosenUIVM.getPointGeo().latStart, chosenUIVM.getPointGeo().lngStart)).zoom(12f).tilt(0f).build()
         map.moveCamera(CameraUpdateFactory.newCameraPosition(newPos))
 
-        map.addMarker(MarkerOptions().position(LatLng(chosenUIVM.getPointGeo().latStart, chosenUIVM.getPointGeo().lngStart)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)))
+        activityVM.points.observe(viewLifecycleOwner) {
+            for (i in it) {
+                if (i.languageId == (activity as MainActivity).provideApplication().getLanguage()) {
+                    map.addMarker(MarkerOptions().position(LatLng(i.point.latStart, i.point.lngStart)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
+                    if (i.point.pointGeoType == "Line") {
+                        map.addPolyline(PolylineOptions().add(LatLng(i.point.latStart, i.point.lngStart),LatLng(i.point.latFinish, i.point.lngFinish)).color(R.color.marker_unactivated).width(10F))
+                    } else if (i.point.pointGeoType == "Point"){
+                        map.addCircle(CircleOptions().center(LatLng(i.point.latStart, i.point.lngStart)).fillColor(R.color.marker_unactivated).radius(60.0).strokeColor(R.color.marker_unactivated))
+                    }
+                }
+            }
+        }
     }
 
     private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int): BitmapDescriptor {

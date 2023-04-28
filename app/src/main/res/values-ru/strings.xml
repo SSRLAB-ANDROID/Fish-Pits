@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Рыбные ямы</string>
+    <string name="app_name">Навигатор рыбных ям</string>
 
     <!-- Map point description -->
     <string name="river">Река</string>
@@ -33,4 +33,5 @@
     <!-- Fragment titles -->
     <string name="map_fragment">Карта</string>
     <string name="tables_fragment">Таблицы</string>
+    <string name="show_on_the_map">Показать на карте</string>
 </resources>

@@ -183,11 +183,11 @@
     <View
         android:id="@+id/horizontal_separator"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="20dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ic_description"/>
+        app:layout_constraintTop_toBottomOf="@id/text_description"/>
 
     <View
         android:id="@+id/vertical_separator"
@@ -289,17 +289,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
+        android:layout_marginHorizontal="16dp"
         android:textColor="@color/white"
-        android:textStyle="bold"
+
         android:textSize="14sp"
 
-        android:lines="3"
+        android:textStyle="bold"
 
-        android:layout_marginHorizontal="16dp"
-
-        app:layout_constraintStart_toEndOf="@id/vertical_separator"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_separator"
         app:layout_constraintTop_toTopOf="@id/title_description"
-        app:layout_constraintBottom_toBottomOf="@id/title_description"/>
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
