@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentChosenBinding
+import by.ssrlab.fishpits.fragments.bychosen.sub.MapPointFragment
 import by.ssrlab.fishpits.objects.point.PointCommon
 import by.ssrlab.fishpits.utils.base.BaseFragment
 import by.ssrlab.fishpits.utils.tools.adapters.ChosenAdapter
@@ -43,12 +43,14 @@ class ChosenFragment: BaseFragment() {
 
         var list = initList(application.getLanguage())
 
-        adapter = ChosenAdapter(list, activityVM, uiVM, childFragmentManager)
+        val mapPointFragment = MapPointFragment()
+
+        adapter = ChosenAdapter(list, activityVM, uiVM, mapPointFragment, childFragmentManager)
         binding.points.adapter = adapter
 
         langListener = application.languageSubj.subscribe {
             list = initList(it)
-            adapter = ChosenAdapter(list, activityVM, uiVM, childFragmentManager)
+            adapter = ChosenAdapter(list, activityVM, uiVM, mapPointFragment, childFragmentManager)
             binding.points.swapAdapter(adapter, false)
         }
     }
@@ -78,8 +80,8 @@ class ChosenFragment: BaseFragment() {
 
         langListener.dispose()
 
-        if (uiVM.access == "region"){
-            activityVM.setToolbarTitle(resources.getString(R.string.by_regions))
-        } else activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
+//        if (uiVM.access == "region"){
+//            activityVM.setToolbarTitle(resources.getString(R.string.by_regions))
+//        } else activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
     }
 }

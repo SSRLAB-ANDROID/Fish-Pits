@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fish Pits</string>
+    <string name="app_name">Fish Pits Navigator</string>
 
     <!-- Map point description -->
     <string name="river">River</string>
@@ -33,4 +33,5 @@
     <!-- Fragment titles -->
     <string name="map_fragment">Map</string>
     <string name="tables_fragment">Tables</string>
+    <string name="show_on_the_map">Show on the map</string>
 </resources>

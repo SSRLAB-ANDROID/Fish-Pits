@@ -15,6 +15,7 @@ class ChosenAdapter(
     private val list: List<PointCommon>,
     private val activityVM: MainVM,
     private val uiVM: ChosenUIVM,
+    private val mapPointFragment: MapPointFragment,
     private val childFragmentManager: FragmentManager) :
     RecyclerView.Adapter<ChosenAdapter.ChosenHolder>() {
 
@@ -37,7 +38,7 @@ class ChosenAdapter(
                 binding.chosenRegionShortDesc.text = Html.fromHtml(this.pointName, Html.FROM_HTML_MODE_LEGACY)
                 binding.chosenShowButton.setOnClickListener {
                     uiVM.setPointGeo(this.point)
-                    MapPointFragment().show(childFragmentManager, "${this.id}_mapPoint")
+                    mapPointFragment.show(childFragmentManager, "${this.id}_mapPoint")
                 }
             }
         }

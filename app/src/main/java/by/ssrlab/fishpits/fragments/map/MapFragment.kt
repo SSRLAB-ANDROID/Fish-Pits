@@ -1,7 +1,5 @@
 package by.ssrlab.fishpits.fragments.map
 
-import android.content.Context.LOCATION_SERVICE
-import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +12,11 @@ import by.ssrlab.fishpits.fragments.map.sub.PointDescriptionFragment
 import by.ssrlab.fishpits.utils.base.BaseFragment
 import by.ssrlab.fishpits.utils.vm.ui.sub.map.MapUIVM
 import by.ssrlab.fishpits.utils.vm.ui.sub.map.sub.MapPointVM
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
@@ -48,8 +42,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
 
         activityVM.setToolbarTitle(resources.getString(R.string.map_fragment))
     }
@@ -57,29 +51,28 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
+        initMap()
+    }
+
+    private fun initMap(){
         if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != 1) {
             ActivityCompat.requestPermissions(activityMain, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
         }
 
         map.isMyLocationEnabled = true
 
-        val locationManager = activityMain.getSystemService(LOCATION_SERVICE) as LocationManager
-
-        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activityMain)
-        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-            val pos: CameraPosition = map.cameraPosition
-            val newPos =
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) CameraPosition.Builder(pos).target(LatLng(it.latitude, it.longitude)).zoom(12f).tilt(0f).build()
-                else CameraPosition.Builder(pos).target(LatLng(53.893009, 27.567444)).zoom(8f).tilt(0f).build()
-            map.animateCamera(CameraUpdateFactory.newCameraPosition(newPos))
-        }
+        val pos: CameraPosition = map.cameraPosition
+        val newPos = CameraPosition.Builder(pos).target(LatLng(53.893009, 27.567444)).zoom(7f).tilt(0f).build()
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(newPos))
 
         activityVM.points.observe(viewLifecycleOwner) {
             for (i in it) {
                 if (i.languageId == activityMain.provideApplication().getLanguage()) {
                     map.addMarker(MarkerOptions().position(LatLng(i.point.latStart, i.point.lngStart)).icon(uiVM.bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
-                    if (i.point.latFinish != 0.0) {
-                        map.addPolyline(PolylineOptions().add(LatLng(i.point.latStart, i.point.lngStart), LatLng(i.point.latFinish, i.point.lngFinish)).color(R.color.marker_unactivated).width(10F))
+                    if (i.point.pointGeoType == "Line") {
+                        map.addPolyline(PolylineOptions().add(LatLng(i.point.latStart, i.point.lngStart),LatLng(i.point.latFinish, i.point.lngFinish)).color(R.color.marker_unactivated).width(10F))
+                    } else if (i.point.pointGeoType == "Point"){
+                        map.addCircle(CircleOptions().center(LatLng(i.point.latStart, i.point.lngStart)).fillColor(R.color.marker_unactivated).radius(60.0).strokeColor(R.color.marker_unactivated))
                     }
                 }
             }
