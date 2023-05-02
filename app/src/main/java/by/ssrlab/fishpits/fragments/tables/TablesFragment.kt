@@ -26,6 +26,7 @@ class TablesFragment: BaseFragment() {
         binding = FragmentTablesBinding.inflate(layoutInflater)
 
         activityVM.setToolbarTitle(resources.getString(R.string.tables_fragment))
+        activityMain.setToolbarShowMenu()
 
         return binding.root
     }

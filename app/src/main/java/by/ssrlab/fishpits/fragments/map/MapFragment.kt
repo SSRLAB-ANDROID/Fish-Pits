@@ -35,6 +35,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         binding = FragmentMapBinding.inflate(layoutInflater)
 
         activityMain.turnOnBottomNav()
+        activityMain.setToolbarShowMenu()
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -52,6 +53,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         map = googleMap
 
         initMap()
+        activityVM.setToolbarTitle(resources.getString(R.string.map_fragment))
     }
 
     private fun initMap(){

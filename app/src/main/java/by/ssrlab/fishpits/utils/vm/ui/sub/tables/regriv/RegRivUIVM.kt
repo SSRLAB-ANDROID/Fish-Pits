@@ -16,4 +16,6 @@ class RegRivUIVM: BaseUIVM() {
         regLangListener?.dispose()
         rivLangListener?.dispose()
     }
+
+    var toolbarTitle = ""
 }

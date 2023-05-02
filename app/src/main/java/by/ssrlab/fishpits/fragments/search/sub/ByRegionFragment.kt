@@ -38,6 +38,8 @@ class ByRegionFragment: Fragment() {
 
         binding = FragmentByRegionBinding.inflate(layoutInflater)
 
+        activityVM.setToolbarTitle(resources.getString(R.string.by_regions))
+
         binding.regionRv.layoutManager = LinearLayoutManager(activity as MainActivity)
 
         (activity as MainActivity).handleOnBackPressed()
@@ -48,20 +50,19 @@ class ByRegionFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        activityVM.setToolbarTitle(resources.getString(R.string.by_regions))
         uiVM.setNavController(regRivUIVM.getNavController())
 
         val application = (activity as MainActivity).provideApplication()
 
         var list = initList(application.getLanguage())
 
-        adapter = ByRegionAdapter(list, chosenUIVM, activityVM, uiVM)
+        adapter = ByRegionAdapter(list, chosenUIVM, activityVM, regRivUIVM, activity as MainActivity, uiVM)
         binding.regionRv.adapter = adapter
 
         if (regRivUIVM.regLangListener == null) {
             langListener = application.languageSubj.subscribe {
                 list = initList(it)
-                adapter = ByRegionAdapter(list, chosenUIVM, activityVM, uiVM)
+                adapter = ByRegionAdapter(list, chosenUIVM, activityVM, regRivUIVM, activity as MainActivity, uiVM)
                 binding.regionRv.swapAdapter(adapter, false)
             }
 

@@ -38,6 +38,8 @@ class ByRiverFragment: Fragment() {
 
         binding = FragmentByRiverBinding.inflate(layoutInflater)
 
+        activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
+
         binding.riverRv.layoutManager = LinearLayoutManager(activity as MainActivity)
 
         (activity as MainActivity).handleOnBackPressed()
@@ -48,20 +50,19 @@ class ByRiverFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
         uiVM.setNavController(regRivUIVM.getNavController())
 
         val application = (activity as MainActivity).provideApplication()
 
         var list = initList(application.getLanguage())
 
-        adapter = ByRiverAdapter(list, chosenUIVM, activityVM, uiVM)
+        adapter = ByRiverAdapter(list, chosenUIVM, activityVM, regRivUIVM, activity as MainActivity, uiVM)
         binding.riverRv.adapter = adapter
 
         if (regRivUIVM.rivLangListener == null) {
             langListener = application.languageSubj.subscribe {
                 list = initList(it)
-                adapter = ByRiverAdapter(list, chosenUIVM, activityVM, uiVM)
+                adapter = ByRiverAdapter(list, chosenUIVM, activityVM, regRivUIVM, activity as MainActivity, uiVM)
                 binding.riverRv.swapAdapter(adapter, false)
             }
 

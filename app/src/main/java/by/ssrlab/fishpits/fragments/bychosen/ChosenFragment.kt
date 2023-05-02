@@ -32,6 +32,7 @@ class ChosenFragment: BaseFragment() {
         binding.points.layoutManager = LinearLayoutManager(context)
 
         activityMain.handleOnBackPressed()
+        activityMain.setToolbarPopBack()
 
         return binding.root
     }
@@ -79,9 +80,5 @@ class ChosenFragment: BaseFragment() {
         super.onDestroy()
 
         langListener.dispose()
-
-//        if (uiVM.access == "region"){
-//            activityVM.setToolbarTitle(resources.getString(R.string.by_regions))
-//        } else activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
     }
 }
