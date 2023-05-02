@@ -11,7 +11,6 @@ import by.ssrlab.fishpits.objects.district.DistrictForDB
 import by.ssrlab.fishpits.objects.point.PointDescripted
 import by.ssrlab.fishpits.objects.point.PointForDB
 
-
 @Database(entities = [
     DistrictForDB::class,
     DistrictDescripted::class,

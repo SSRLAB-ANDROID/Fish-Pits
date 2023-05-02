@@ -27,6 +27,7 @@ class RegRivHolderFragment: BaseFragment() {
         binding = FragmentRegrivHolderBinding.inflate(layoutInflater)
 
         activityMain.handleOnBackPressed()
+        activityMain.setToolbarPopBack()
 
         pagerAdapter = PagerAdapter(activityMain)
         binding.viewPager.adapter = pagerAdapter
@@ -44,5 +45,11 @@ class RegRivHolderFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         uiVM.defineNavController(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        activityVM.setToolbarTitle(uiVM.toolbarTitle)
     }
 }

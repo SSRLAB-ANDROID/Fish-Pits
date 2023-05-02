@@ -69,11 +69,11 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
             ActivityCompat.requestPermissions((activity as MainActivity), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
         }
 
-        map.isMyLocationEnabled = false
+        map.isMyLocationEnabled = true
         map.uiSettings.setAllGesturesEnabled(false)
 
         val pos: CameraPosition = map.cameraPosition
-        val newPos = CameraPosition.Builder(pos).target(LatLng(chosenUIVM.getPointGeo().latStart, chosenUIVM.getPointGeo().lngStart)).zoom(12f).tilt(0f).build()
+        val newPos = CameraPosition.Builder(pos).target(LatLng(chosenUIVM.getPointGeo().latStart, chosenUIVM.getPointGeo().lngStart)).zoom(14f).tilt(0f).build()
         map.moveCamera(CameraUpdateFactory.newCameraPosition(newPos))
 
         activityVM.points.observe(viewLifecycleOwner) {
