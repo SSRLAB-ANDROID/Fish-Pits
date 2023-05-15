@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.ssrlab.fishpits.MainActivity
-import by.ssrlab.fishpits.R
 import by.ssrlab.fishpits.databinding.FragmentByRiverBinding
 import by.ssrlab.fishpits.objects.WaterObject
 import by.ssrlab.fishpits.utils.base.BaseUIVM
@@ -37,8 +36,6 @@ class ByRiverFragment: Fragment() {
     ): View {
 
         binding = FragmentByRiverBinding.inflate(layoutInflater)
-
-        activityVM.setToolbarTitle(resources.getString(R.string.by_rivers))
 
         binding.riverRv.layoutManager = LinearLayoutManager(activity as MainActivity)
 

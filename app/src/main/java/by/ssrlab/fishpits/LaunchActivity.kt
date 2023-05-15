@@ -3,18 +3,19 @@ package by.ssrlab.fishpits
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import by.ssrlab.fishpits.app.Application
 import by.ssrlab.fishpits.databinding.ActivityLaunchBinding
 import by.ssrlab.fishpits.utils.retrofit.common.Common
 import by.ssrlab.fishpits.utils.retrofit.`interface`.RetrofitServices
 import by.ssrlab.fishpits.utils.vm.main.MainVM
-
 import kotlinx.coroutines.*
 
 @SuppressLint("CustomSplashScreen")
@@ -65,9 +66,11 @@ class LaunchActivity : AppCompatActivity() {
 
         mediaScope.launch {
             delay(5000)
-            val intent = Intent(this@LaunchActivity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            checkPermission {
+                val intent = Intent(this@LaunchActivity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
         }
     }
 
@@ -77,5 +80,15 @@ class LaunchActivity : AppCompatActivity() {
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             1
         )
+    }
+
+    private fun checkPermission(onSuccess: () -> Unit){
+        while (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            mediaScope.launch {
+                delay(1000)
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) onSuccess()
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Навигатор рыбных ям</string>
+    <string name="app_name">Fish Pits Navigator</string>
 
     <!-- Map point description -->
     <string name="river">Река</string>
