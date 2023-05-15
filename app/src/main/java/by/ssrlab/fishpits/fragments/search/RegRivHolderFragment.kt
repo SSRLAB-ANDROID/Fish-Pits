@@ -51,5 +51,6 @@ class RegRivHolderFragment: BaseFragment() {
         super.onResume()
 
         activityVM.setToolbarTitle(uiVM.toolbarTitle)
+        activityVM.setToolbarTitle(resources.getString(R.string.tables_fragment))
     }
 }
