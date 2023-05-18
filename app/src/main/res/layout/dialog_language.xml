@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="English"
+            android:text="@string/english"
             android:textSize="24sp"
             android:textColor="@color/white"
 
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Беларуская"
+            android:text="@string/belarusian"
             android:textSize="24sp"
             android:textColor="@color/white"
 
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Русский"
+            android:text="@string/russian"
             android:textSize="24sp"
             android:textColor="@color/white"
 
