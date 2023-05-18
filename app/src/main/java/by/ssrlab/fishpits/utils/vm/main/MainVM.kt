@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -35,8 +36,8 @@ import by.ssrlab.fishpits.objects.district.DistrictForDB
 import by.ssrlab.fishpits.objects.point.PointCommon
 import by.ssrlab.fishpits.objects.point.PointDescripted
 import by.ssrlab.fishpits.objects.point.PointForDB
-import by.ssrlab.fishpits.utils.retrofit.`interface`.RetrofitServices
 import by.ssrlab.fishpits.utils.base.BaseUIVM
+import by.ssrlab.fishpits.utils.retrofit.`interface`.RetrofitServices
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -44,9 +45,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.util.*
 import kotlin.system.exitProcess
 
+@Suppress("DEPRECATION")
 class MainVM : ViewModel() {
 
     private val mediaJob = Job()
@@ -300,6 +302,11 @@ class MainVM : ViewModel() {
      */
     fun initLangDialog(activity: MainActivity, application: Application, activityBinding: ActivityMainBinding){
 
+        val displayMetrics = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        val width = displayMetrics.widthPixels
+
         val dialog = Dialog(activity)
         val dialogBinding = DialogLanguageBinding.inflate(LayoutInflater.from(activity))
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -310,7 +317,7 @@ class MainVM : ViewModel() {
 
         val layoutParams = WindowManager.LayoutParams()
         layoutParams.copyFrom(dialog.window!!.attributes)
-        layoutParams.width = 1000
+        layoutParams.width = width - (width / 5)
         dialog.window?.attributes = layoutParams
 
         dialogBinding.langButton1.setOnClickListener {
@@ -336,7 +343,7 @@ class MainVM : ViewModel() {
             application.languageSubj.onNext(1)
             application.setLanguage(1)
 
-            val loc = Locale("be")
+            val loc = Locale("bel")
             application.setLocale(loc)
             val config = application.getContext().resources.configuration
             config.setLocale(loc)
@@ -594,15 +601,19 @@ class MainVM : ViewModel() {
 
         for (i in pointForDbArray.indices){
             val j = pointForDbArray[i].pointId
-            val pointCommon = PointCommon(
-                pointForDbArray[i].id,
-                pointForDbArray[i].languageId,
-                pointDescArray.find { it.id == j }!!,
-                pointForDbArray[i].pointName,
-                pointForDbArray[i].isVisible
-            )
+            val pointCommon = pointDescArray.find { it.id == j }?.let {
+                PointCommon(
+                    pointForDbArray[i].id,
+                    pointForDbArray[i].languageId,
+                    it,
+                    pointForDbArray[i].pointName,
+                    pointForDbArray[i].isVisible
+                )
+            }
 
-            list.add(pointCommon)
+            if (pointCommon != null) {
+                list.add(pointCommon)
+            }
         }
 
         return list
