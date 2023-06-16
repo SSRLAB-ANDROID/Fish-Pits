@@ -286,7 +286,7 @@ class MainVM : ViewModel() {
                 R.id.nav_write_to_devs -> {
                     activity.startActivity(Intent(
                             Intent.ACTION_SENDTO,
-                            Uri.parse("mailto:ssrlab221@gmail.com")
+                            Uri.parse("mailto:lablakeirh@gmail.com")
                         )
                     )
                     true
@@ -343,7 +343,7 @@ class MainVM : ViewModel() {
             application.languageSubj.onNext(1)
             application.setLanguage(1)
 
-            val loc = Locale("bel")
+            val loc = Locale("be")
             application.setLocale(loc)
             val config = application.getContext().resources.configuration
             config.setLocale(loc)
