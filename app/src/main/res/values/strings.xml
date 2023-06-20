@@ -34,4 +34,7 @@
     <string name="map_fragment">Map</string>
     <string name="tables_fragment">Tables</string>
     <string name="show_on_the_map">Show on the map</string>
+    <string name="english">English</string>
+    <string name="belarusian">Беларуская</string>
+    <string name="russian">Русский</string>
 </resources>

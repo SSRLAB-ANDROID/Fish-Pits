@@ -34,4 +34,7 @@
     <string name="map_fragment">Карта</string>
     <string name="tables_fragment">Таблицы</string>
     <string name="show_on_the_map">Показать на карте</string>
+    <string name="english">English</string>
+    <string name="belarusian">Беларуская</string>
+    <string name="russian">Русский</string>
 </resources>
