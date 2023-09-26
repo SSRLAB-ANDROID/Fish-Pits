@@ -21,16 +21,28 @@ data class PointDescripted(
     var pointGeoType: String = "",
 
     @SerializedName("lat")
-    var latStart: Double = 0.0,
+    var lat1: Double = 0.0,
 
     @SerializedName("lng")
-    var lngStart: Double = 0.0,
+    var lng1: Double = 0.0,
 
     @SerializedName("lat_2")
-    var latFinish: Double = 0.0,
+    var lat2: Double = 0.0,
 
     @SerializedName("lng_2")
-    var lngFinish: Double = 0.0,
+    var lng2: Double = 0.0,
+
+    @SerializedName("lat_3")
+    var lat3: Double = 0.0,
+
+    @SerializedName("lng_3")
+    var lng3: Double = 0.0,
+
+    @SerializedName("lat_4")
+    var lat4: Double = 0.0,
+
+    @SerializedName("lng_4")
+    var lng4: Double = 0.0,
 
     @SerializedName("visible")
     var isVisible: Boolean = false
