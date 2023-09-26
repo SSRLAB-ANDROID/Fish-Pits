@@ -18,7 +18,7 @@ import by.ssrlab.fishpits.objects.point.PointForDB
     PointDescripted::class,
     Region::class,
     WaterObject::class
-                     ], version = 1, exportSchema = false)
+                     ], version = 2, exportSchema = false)
 abstract class AppDB: RoomDatabase() {
     abstract val appDao: AppDao
 
@@ -29,7 +29,7 @@ abstract class AppDB: RoomDatabase() {
 
         fun getInstance(context: Context): AppDB {
             return if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "fish_pits_db_v1").build()
+                INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "fish_pits_db_v1").fallbackToDestructiveMigration().build()
                 INSTANCE as AppDB
             } else INSTANCE as AppDB
         }

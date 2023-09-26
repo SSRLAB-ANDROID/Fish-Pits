@@ -33,8 +33,8 @@ class ChosenAdapter(
             with(list[position]) {
                 binding.chosenNumber.text = (position + 1).toString()
                 binding.chosenLabel.text = activityVM.districts.value!!.find{ it.district.id == this.point.pointDistrictId && it.languageId == this.languageId }!!.districtName
-                binding.chosenStartText.text = "${this.point.latStart}, ${this.point.lngStart}"
-                binding.chosenFinishText.text = "${this.point.latFinish}, ${this.point.lngFinish}"
+                binding.chosenStartText.text = "${this.point.lat1}, ${this.point.lng1}"
+                binding.chosenFinishText.text = "${this.point.lat2}, ${this.point.lng2}"
                 binding.chosenRegionShortDesc.text = Html.fromHtml(this.pointName, Html.FROM_HTML_MODE_LEGACY)
                 binding.chosenShowButton.setOnClickListener {
                     uiVM.setPointGeo(this.point)

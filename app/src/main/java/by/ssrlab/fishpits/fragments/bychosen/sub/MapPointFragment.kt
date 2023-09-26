@@ -73,17 +73,17 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
         map.uiSettings.setAllGesturesEnabled(false)
 
         val pos: CameraPosition = map.cameraPosition
-        val newPos = CameraPosition.Builder(pos).target(LatLng(chosenUIVM.getPointGeo().latStart, chosenUIVM.getPointGeo().lngStart)).zoom(14f).tilt(0f).build()
+        val newPos = CameraPosition.Builder(pos).target(LatLng(chosenUIVM.getPointGeo().lat1, chosenUIVM.getPointGeo().lng1)).zoom(14f).tilt(0f).build()
         map.moveCamera(CameraUpdateFactory.newCameraPosition(newPos))
 
         activityVM.points.observe(viewLifecycleOwner) {
             for (i in it) {
                 if (i.languageId == (activity as MainActivity).provideApplication().getLanguage()) {
-                    map.addMarker(MarkerOptions().position(LatLng(i.point.latStart, i.point.lngStart)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
+                    map.addMarker(MarkerOptions().position(LatLng(i.point.lat1, i.point.lng1)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
                     if (i.point.pointGeoType == "Line") {
-                        map.addPolyline(PolylineOptions().add(LatLng(i.point.latStart, i.point.lngStart),LatLng(i.point.latFinish, i.point.lngFinish)).color(R.color.marker_unactivated).width(10F))
+                        map.addPolyline(PolylineOptions().add(LatLng(i.point.lat1, i.point.lng1),LatLng(i.point.lat2, i.point.lng2)).color(R.color.marker_unactivated).width(10F))
                     } else if (i.point.pointGeoType == "Point"){
-                        map.addCircle(CircleOptions().center(LatLng(i.point.latStart, i.point.lngStart)).fillColor(R.color.marker_unactivated).radius(60.0).strokeColor(R.color.marker_unactivated))
+                        map.addCircle(CircleOptions().center(LatLng(i.point.lat1, i.point.lng1)).fillColor(R.color.marker_unactivated).radius(60.0).strokeColor(R.color.marker_unactivated))
                     }
                 }
             }

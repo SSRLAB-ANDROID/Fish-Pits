@@ -39,8 +39,8 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
         binding.textRiver.text = activityVM.waterObjects.value!!.find { it.waterObjectId == pointVM.getPoint().point.waterObjId && it.languageId == application.getLanguage() }?.waterObjectName
         binding.textRegion.text = activityVM.regions.value!!.find { region -> region.regionId == activityVM.districts.value!!.find { it.district.id == pointVM.getPoint().point.pointDistrictId }?.district?.regionId && region.languageId == application.getLanguage() }?.regionName
         binding.textDistrict.text = activityVM.districts.value!!.find { it.district.id == pointVM.getPoint().point.pointDistrictId && it.languageId == application.getLanguage() }?.districtName
-        binding.textPitStarted.text = "${pointVM.getPoint().point.latStart},\n${pointVM.getPoint().point.lngStart}"
-        binding.textPitFinished.text = "${pointVM.getPoint().point.latFinish},\n${pointVM.getPoint().point.lngFinish}"
+        binding.textPitStarted.text = "${pointVM.getPoint().point.lat1},\n${pointVM.getPoint().point.lng1}"
+        binding.textPitFinished.text = "${pointVM.getPoint().point.lat2},\n${pointVM.getPoint().point.lng2}"
         binding.textDescription.text = Html.fromHtml(pointVM.getPoint().pointName, Html.FROM_HTML_MODE_LEGACY)
 
         return binding.root
