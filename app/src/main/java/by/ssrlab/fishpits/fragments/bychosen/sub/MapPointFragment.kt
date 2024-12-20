@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,8 +81,12 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
             for (i in it) {
                 if (i.languageId == (activity as MainActivity).provideApplication().getLanguage()) {
                     map.addMarker(MarkerOptions().position(LatLng(i.point.lat1, i.point.lng1)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
-                    if (i.point.pointGeoType == "Line") {
+                    Log.d("Marker", i.point.pointGeoType)
+                    if (i.point.pointGeoType == "Line" || i.point.pointGeoType == "Polygon") {
                         map.addPolyline(PolylineOptions().add(LatLng(i.point.lat1, i.point.lng1),LatLng(i.point.lat2, i.point.lng2)).color(R.color.marker_unactivated).width(10F))
+                        if (!(i.point.lat3 == 0.0 && i.point.lng3 == 0.0 && i.point.lat4 == 0.0 && i.point.lng4 == 0.0)) {
+                            map.addPolyline(PolylineOptions().add(LatLng(i.point.lat3, i.point.lng3),LatLng(i.point.lat4, i.point.lng4)).color(R.color.marker_unactivated).width(10F))
+                        }
                     } else if (i.point.pointGeoType == "Point"){
                         map.addCircle(CircleOptions().center(LatLng(i.point.lat1, i.point.lng1)).fillColor(R.color.marker_unactivated).radius(60.0).strokeColor(R.color.marker_unactivated))
                     }
