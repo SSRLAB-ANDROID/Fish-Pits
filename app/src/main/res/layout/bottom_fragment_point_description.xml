@@ -100,7 +100,7 @@
 
         android:src="@drawable/ic_pit_started"
 
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:layout_marginStart="16dp"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +129,7 @@
 
         android:src="@drawable/ic_pit_finished"
 
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="60dp"
         android:layout_marginStart="16dp"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -158,7 +158,7 @@
 
         android:src="@drawable/ic_description"
 
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:layout_marginStart="16dp"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -257,7 +257,7 @@
         android:textStyle="bold"
         android:textSize="14sp"
 
-        android:lines="2"
+        android:lines="4"
 
         android:layout_marginHorizontal="16dp"
 
@@ -275,7 +275,7 @@
         android:textStyle="bold"
         android:textSize="14sp"
 
-        android:lines="2"
+        android:lines="4"
 
         android:layout_marginHorizontal="16dp"
 
