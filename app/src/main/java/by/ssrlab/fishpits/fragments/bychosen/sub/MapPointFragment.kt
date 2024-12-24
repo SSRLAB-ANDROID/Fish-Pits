@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.CircleOptions
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -45,7 +50,8 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
 
         (activity as MainActivity).turnOffBottomNav()
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_bottom) as SupportMapFragment?
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.map_bottom) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
         return binding.root
@@ -55,8 +61,8 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
         super.onStart()
 
         dialog?.let {
-
-            val bottomSheet = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+            val bottomSheet =
+                it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
             val behavior = BottomSheetBehavior.from(bottomSheet)
 
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -66,40 +72,98 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != 1) {
-            ActivityCompat.requestPermissions((activity as MainActivity), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != 1
+        ) {
+            ActivityCompat.requestPermissions(
+                (activity as MainActivity),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
         }
 
         map.isMyLocationEnabled = true
         map.uiSettings.setAllGesturesEnabled(false)
 
         val pos: CameraPosition = map.cameraPosition
-        val newPos = CameraPosition.Builder(pos).target(LatLng(chosenUIVM.getPointGeo().lat1, chosenUIVM.getPointGeo().lng1)).zoom(14f).tilt(0f).build()
+        val newPos = CameraPosition.Builder(pos)
+            .target(LatLng(chosenUIVM.getPointGeo().lat1, chosenUIVM.getPointGeo().lng1))
+            .zoom(14f)
+            .tilt(0f)
+            .build()
+
         map.moveCamera(CameraUpdateFactory.newCameraPosition(newPos))
 
-        activityVM.points.observe(viewLifecycleOwner) {
-            for (i in it) {
-                if (i.languageId == (activity as MainActivity).provideApplication().getLanguage()) {
-                    map.addMarker(MarkerOptions().position(LatLng(i.point.lat1, i.point.lng1)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(i.id.toString()))
-                    Log.d("Marker", i.point.pointGeoType)
-                    if (i.point.pointGeoType == "Line" || i.point.pointGeoType == "Polygon") {
-                        map.addPolyline(PolylineOptions().add(LatLng(i.point.lat1, i.point.lng1),LatLng(i.point.lat2, i.point.lng2)).color(R.color.marker_unactivated).width(10F))
-                        if (!(i.point.lat3 == 0.0 && i.point.lng3 == 0.0 && i.point.lat4 == 0.0 && i.point.lng4 == 0.0)) {
-                            map.addPolyline(PolylineOptions().add(LatLng(i.point.lat3, i.point.lng3),LatLng(i.point.lat4, i.point.lng4)).color(R.color.marker_unactivated).width(10F))
+        activityVM.points.observe(viewLifecycleOwner) { points ->
+
+            map.clear()
+            val selectedPoint = points.find {
+                it.point.lat1 == newPos.target.latitude && it.point.lng1 == newPos.target.longitude
+            }
+            if (selectedPoint != null) {
+                map.addMarker(MarkerOptions().position(LatLng(selectedPoint.point.lat1, selectedPoint.point.lng1)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(selectedPoint.id.toString()))
+            }
+
+            selectedPoint?.let { point ->
+                when (point.point.pointGeoType) {
+                    "Point" -> {
+                        map.addCircle(
+                            CircleOptions()
+                                .center(LatLng(point.point.lat1, point.point.lng1))
+                                .fillColor(R.color.marker_unactivated)
+                                .radius(60.0)
+                                .strokeColor(R.color.marker_unactivated)
+                        )
+                    }
+
+                    "Line", "Polygon" -> {
+                        map.addPolyline(
+                            PolylineOptions()
+                                .add(
+                                    LatLng(point.point.lat1, point.point.lng1),
+                                    LatLng(point.point.lat2, point.point.lng2)
+                                )
+                                .color(R.color.marker_unactivated)
+                                .width(10F)
+                        )
+                        if (!(point.point.lat3 == 0.0 && point.point.lng3 == 0.0
+                                    && point.point.lat4 == 0.0 && point.point.lng4 == 0.0)
+                        ) {
+                            map.addPolyline(
+                                PolylineOptions()
+                                    .add(
+                                        LatLng(point.point.lat3, point.point.lng3),
+                                        LatLng(point.point.lat4, point.point.lng4)
+                                    )
+                                    .color(R.color.marker_unactivated)
+                                    .width(10F)
+                            )
                         }
-                    } else if (i.point.pointGeoType == "Point"){
-                        map.addCircle(CircleOptions().center(LatLng(i.point.lat1, i.point.lng1)).fillColor(R.color.marker_unactivated).radius(60.0).strokeColor(R.color.marker_unactivated))
                     }
                 }
             }
         }
     }
 
-    private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorDrawableResourceId: Int): BitmapDescriptor {
+    private fun bitmapDescriptorFromVector(
+        context: Context,
+        @DrawableRes vectorDrawableResourceId: Int
+    ): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
-        vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
+        vectorDrawable!!.setBounds(
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
+        )
 
-        val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
