@@ -1,6 +1,7 @@
 package by.ssrlab.fishpits.fragments.bychosen.sub
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -23,9 +24,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -36,7 +37,9 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
     private lateinit var binding: BottomFragmentMapPointBinding
     private lateinit var map: GoogleMap
     private val activityVM: MainVM by activityViewModels()
-    private val chosenUIVM: ChosenUIVM by activityViewModels() /** Common with ChosenFragment */
+    private val chosenUIVM: ChosenUIVM by activityViewModels()
+
+    /** Common with ChosenFragment */
 
     override fun getTheme() = R.style.DescBottomSheetDialogTheme
 
@@ -75,7 +78,7 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != 1
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
                 (activity as MainActivity),
@@ -87,38 +90,54 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
         map.isMyLocationEnabled = true
         map.uiSettings.setAllGesturesEnabled(false)
 
-        val pos: CameraPosition = map.cameraPosition
-        val newPos = CameraPosition.Builder(pos)
-            .target(LatLng(chosenUIVM.getPointGeo().lat1, chosenUIVM.getPointGeo().lng1))
-            .zoom(14f)
-            .tilt(0f)
-            .build()
-
-        map.moveCamera(CameraUpdateFactory.newCameraPosition(newPos))
-
         activityVM.points.observe(viewLifecycleOwner) { points ->
-
             map.clear()
+
             val selectedPoint = points.find {
-                it.point.lat1 == newPos.target.latitude && it.point.lng1 == newPos.target.longitude
-            }
-            if (selectedPoint != null) {
-                map.addMarker(MarkerOptions().position(LatLng(selectedPoint.point.lat1, selectedPoint.point.lng1)).icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_map_point_unactivated)).title(selectedPoint.id.toString()))
+                it.point.lat1 == chosenUIVM.getPointGeo().lat1 &&
+                        it.point.lng1 == chosenUIVM.getPointGeo().lng1
             }
 
             selectedPoint?.let { point ->
-                when (point.point.pointGeoType) {
-                    "Point" -> {
-                        map.addCircle(
-                            CircleOptions()
-                                .center(LatLng(point.point.lat1, point.point.lng1))
-                                .fillColor(R.color.marker_unactivated)
-                                .radius(60.0)
-                                .strokeColor(R.color.marker_unactivated)
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(point.point.lat1, point.point.lng1))
+                        .icon(
+                            bitmapDescriptorFromVector(
+                                requireContext(),
+                                R.drawable.ic_map_point_unactivated
+                            )
                         )
-                    }
+                        .title(point.id.toString())
+                )
 
-                    "Line", "Polygon" -> {
+                when (point.point.pointGeoType) {
+                    "Polygon" -> {
+                        val boundsBuilder = LatLngBounds.builder()
+                        boundsBuilder.include(LatLng(point.point.lat1, point.point.lng1))
+                        if (point.point.lat2 != 0.0 && point.point.lng2 != 0.0) {
+                            boundsBuilder.include(LatLng(point.point.lat2, point.point.lng2))
+                        }
+                        if (point.point.lat3 != 0.0 && point.point.lng3 != 0.0) {
+                            boundsBuilder.include(LatLng(point.point.lat3, point.point.lng3))
+                        }
+                        if (point.point.lat4 != 0.0 && point.point.lng4 != 0.0) {
+                            boundsBuilder.include(LatLng(point.point.lat4, point.point.lng4))
+                        }
+
+                        val bounds = boundsBuilder.build()
+                        val width = resources.displayMetrics.widthPixels
+                        val height = resources.displayMetrics.heightPixels
+                        val padding = (height * 0.05).toInt()
+
+                        map.moveCamera(
+                            CameraUpdateFactory.newLatLngBounds(
+                                bounds,
+                                width / 2,
+                                height / 2,
+                                padding
+                            )
+                        )
                         map.addPolyline(
                             PolylineOptions()
                                 .add(
@@ -142,10 +161,45 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
                             )
                         }
                     }
+
+                    "Point" -> {
+                        map.addCircle(
+                            CircleOptions()
+                                .center(LatLng(point.point.lat1, point.point.lng1))
+                                .fillColor(R.color.marker_unactivated)
+                                .radius(60.0)
+                                .strokeColor(R.color.marker_unactivated)
+                        )
+                        map.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(point.point.lat1, point.point.lng1),
+                                14f
+                            )
+                        )
+                    }
+
+                    "Line" -> {
+                        map.addPolyline(
+                            PolylineOptions()
+                                .add(
+                                    LatLng(point.point.lat1, point.point.lng1),
+                                    LatLng(point.point.lat2, point.point.lng2)
+                                )
+                                .color(R.color.marker_unactivated)
+                                .width(10F)
+                        )
+                        map.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(point.point.lat1, point.point.lng1),
+                                14f
+                            )
+                        )
+                    }
                 }
             }
         }
     }
+
 
     private fun bitmapDescriptorFromVector(
         context: Context,
