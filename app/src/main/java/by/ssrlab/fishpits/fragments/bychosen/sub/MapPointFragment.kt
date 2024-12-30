@@ -173,7 +173,7 @@ class MapPointFragment : BottomSheetDialogFragment(), OnMapReadyCallback {
                         map.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(
                                 LatLng(point.point.lat1, point.point.lng1),
-                                14f
+                                13.5f
                             )
                         )
                     }
