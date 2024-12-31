@@ -19,7 +19,9 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: BottomFragmentPointDescriptionBinding
     private val activityVM: MainVM by activityViewModels()
-    private val pointVM: MapPointVM by activityViewModels() /** Shared with map */
+    private val pointVM: MapPointVM by activityViewModels()
+
+    /** Shared with map */
 
     override fun getTheme() = R.style.DescBottomSheetDialogTheme
 
@@ -36,12 +38,32 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
 
         activityMain.turnOffBottomNav()
 
-        binding.textRiver.text = activityVM.waterObjects.value!!.find { it.waterObjectId == pointVM.getPoint().point.waterObjId && it.languageId == application.getLanguage() }?.waterObjectName
-        binding.textRegion.text = activityVM.regions.value!!.find { region -> region.regionId == activityVM.districts.value!!.find { it.district.id == pointVM.getPoint().point.pointDistrictId }?.district?.regionId && region.languageId == application.getLanguage() }?.regionName
-        binding.textDistrict.text = activityVM.districts.value!!.find { it.district.id == pointVM.getPoint().point.pointDistrictId && it.languageId == application.getLanguage() }?.districtName
-        binding.textPitStarted.text = "${pointVM.getPoint().point.lat1},\n${pointVM.getPoint().point.lng1}"
-        binding.textPitFinished.text = "${pointVM.getPoint().point.lat2},\n${pointVM.getPoint().point.lng2}"
-        binding.textDescription.text = Html.fromHtml(pointVM.getPoint().pointName, Html.FROM_HTML_MODE_LEGACY)
+        binding.textRiver.text =
+            activityVM.waterObjects.value!!.find { it.waterObjectId == pointVM.getPoint().point.waterObjId && it.languageId == application.getLanguage() }?.waterObjectName
+        binding.textRegion.text =
+            activityVM.regions.value!!.find { region -> region.regionId == activityVM.districts.value!!.find { it.district.id == pointVM.getPoint().point.pointDistrictId }?.district?.regionId && region.languageId == application.getLanguage() }?.regionName
+        binding.textDistrict.text =
+            activityVM.districts.value!!.find { it.district.id == pointVM.getPoint().point.pointDistrictId && it.languageId == application.getLanguage() }?.districtName
+        if (pointVM.getPoint().point.lat3 == 0.0 && pointVM.getPoint().point.lng3 == 0.0) {
+            binding.textPitStarted.text = "\n${pointVM.getPoint().point.lat1}," +
+                    "\n${pointVM.getPoint().point.lng1}\n"
+        } else {
+            binding.textPitStarted.text = "${pointVM.getPoint().point.lat1}," +
+                    "\n${pointVM.getPoint().point.lng1},\n" +
+                    "${pointVM.getPoint().point.lat3},\n" +
+                    "${pointVM.getPoint().point.lng3}"
+        }
+        if (pointVM.getPoint().point.lat4 == 0.0 && pointVM.getPoint().point.lng4 == 0.0) {
+            binding.textPitFinished.text = "\n${pointVM.getPoint().point.lat2}," +
+                    "\n${pointVM.getPoint().point.lng2}\n"
+        } else {
+            binding.textPitFinished.text = "${pointVM.getPoint().point.lat2}," +
+                    "\n${pointVM.getPoint().point.lng2},\n" +
+                    "${pointVM.getPoint().point.lat4},\n" +
+                    "${pointVM.getPoint().point.lng4}"
+        }
+        binding.textDescription.text =
+            Html.fromHtml(pointVM.getPoint().pointName, Html.FROM_HTML_MODE_LEGACY)
 
         return binding.root
     }
@@ -51,7 +73,8 @@ class PointDescriptionFragment : BottomSheetDialogFragment() {
 
         dialog?.let {
 
-            val bottomSheet = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+            val bottomSheet =
+                it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
             val behavior = BottomSheetBehavior.from(bottomSheet)
 
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
