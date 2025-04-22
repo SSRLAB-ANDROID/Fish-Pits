@@ -72,37 +72,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun turnOnBottomNav(){
         activityVM.turnOnBottomNav(binding, this)
     }
 
-    /**
-     * FOR UI
-     */
     fun turnOffBottomNav(){
         activityVM.turnOffBottomNav(binding, this)
     }
 
-    /**
-     * FOR UI
-     */
     fun hideToolbar(){
         activityVM.hideToolbar(toolbar, this)
     }
 
-    /**
-     * FOR UI
-     */
     fun showToolbar(){
         activityVM.showToolbar(toolbar, this)
     }
 
-    /**
-     * FOR UI
-     */
     fun setToolbarPopBack(){
         binding.menuButton.setImageResource(R.drawable.ic_pop_back)
         binding.menuButton.setOnClickListener {
@@ -110,9 +95,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun setToolbarShowMenu(){
         binding.menuButton.setImageResource(R.drawable.ic_menu)
         binding.menuButton.setOnClickListener {
@@ -120,16 +102,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun hideNavView(){
         binding.drawer.closeDrawer(binding.navigationAppDrawer)
     }
 
-    /**
-     * FOR UI
-     */
     fun setupNavView(baseUIVM: BaseUIVM){
         activityVM.setupNavView(binding, baseUIVM, this, application)
     }

@@ -97,9 +97,6 @@ class MainVM : ViewModel() {
         inflateDrawerMenu(binding)
     }
 
-    /**
-     * FOR LOGIC
-     */
     private fun savePreferences(application: Application, activity: MainActivity, language: Int, locale: String){
         val sharedPreferences = activity.getSharedPreferences(application.PREFERENCES, MODE_PRIVATE) ?: return
         with (sharedPreferences.edit()){
@@ -118,16 +115,10 @@ class MainVM : ViewModel() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun setToolbarTitle(title: String) {
         toolbarTitle.value = title
     }
 
-    /**
-     * FOR UI
-     */
     fun handleOnBackPressed(activity: MainActivity, onBackPressedDispatcher: OnBackPressedDispatcher, bool: Boolean = false, onBackPressedCallback: OnBackPressedCallback? = null) {
         if (bool) {
             onBackPressedDispatcher.addCallback(activity, onMapBackPressedCallback)
@@ -143,9 +134,6 @@ class MainVM : ViewModel() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun turnOnBottomNav(binding: ActivityMainBinding, activity: MainActivity) {
         if (binding.bottomNavigation.visibility == View.GONE) {
 
@@ -156,9 +144,6 @@ class MainVM : ViewModel() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun turnOffBottomNav(binding: ActivityMainBinding, activity: MainActivity) {
         if (binding.bottomNavigation.visibility == View.VISIBLE) {
 
@@ -169,27 +154,18 @@ class MainVM : ViewModel() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun hideToolbar(toolbar: Toolbar, activity: MainActivity){
         val hidAnim = AnimationUtils.loadAnimation(activity, R.anim.toolbar_hide_anim)
         toolbar.startAnimation(hidAnim)
         toolbar.visibility = View.GONE
     }
 
-    /**
-     * FOR UI
-     */
     fun showToolbar(toolbar: Toolbar, activity: MainActivity){
         val showAnim = AnimationUtils.loadAnimation(activity, R.anim.toolbar_show_anim)
         toolbar.startAnimation(showAnim)
         toolbar.visibility = View.VISIBLE
     }
 
-    /**
-     * FOR UI
-     */
     fun setupBottomNavFunc(binding: ActivityMainBinding, activity: MainActivity) {
 
         if (navController != null) {
@@ -267,9 +243,6 @@ class MainVM : ViewModel() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun setupNavView(binding: ActivityMainBinding, baseUIVM: BaseUIVM, activity: MainActivity, application: Application) {
         binding.navigationAppDrawer.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -297,9 +270,6 @@ class MainVM : ViewModel() {
         }
     }
 
-    /**
-     * FOR UI
-     */
     fun initLangDialog(activity: MainActivity, application: Application, activityBinding: ActivityMainBinding){
 
         val displayMetrics = DisplayMetrics()
@@ -377,30 +347,18 @@ class MainVM : ViewModel() {
         dialog.show()
     }
 
-    /**
-     * FOR UI
-     */
     fun setDrawerListener(binding: ActivityMainBinding){
         binding.drawer.addDrawerListener(drawerListener)
     }
 
-    /**
-     * FOR UI
-     */
     private fun inflateDrawerMenu(binding: ActivityMainBinding){
         binding.navigationAppDrawer.inflateMenu(R.menu.drawer_menu)
     }
 
-    /**
-     * FOR UI
-     */
     private fun removeDrawerListener(binding: ActivityMainBinding){
         binding.drawer.removeDrawerListener(drawerListener)
     }
 
-    /**
-     * FOR UI
-     */
     fun initListener(binding: ActivityMainBinding, activity: MainActivity){
         drawerListener = object: DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
@@ -432,9 +390,6 @@ class MainVM : ViewModel() {
         this.mService = mService
     }
 
-    /**
-     * FOR LOGIC
-     */
     fun loadData(application: Application){
 
         val room = AppDB.getInstance(application.getContext())
@@ -445,9 +400,6 @@ class MainVM : ViewModel() {
         getWaterObjects(room)
     }
 
-    /**
-     * FOR LOGIC
-     */
     fun loadDataFromDb(application: Application){
 
         val room = AppDB.getInstance(application.getContext())
@@ -465,9 +417,6 @@ class MainVM : ViewModel() {
         }
     }
 
-    /**
-     * FOR LOGIC
-     */
     private fun getPoints(room: AppDB){
         mDisposable.add(
             mService.getPoints()
@@ -483,9 +432,6 @@ class MainVM : ViewModel() {
         )
     }
 
-    /**
-     * FOR LOGIC
-     */
     private fun getRegions(room: AppDB){
         mDisposable.add(
             mService.getRegions()
@@ -501,9 +447,6 @@ class MainVM : ViewModel() {
         )
     }
 
-    /**
-     * FOR LOGIC
-     */
     private fun getDistricts(room: AppDB){
         mDisposable.add(
             mService.getDistricts()
@@ -519,9 +462,6 @@ class MainVM : ViewModel() {
         )
     }
 
-    /**
-     * FOR LOGIC
-     */
     private fun getWaterObjects(room: AppDB){
         mDisposable.add(
             mService.getWaterObjects()
@@ -537,9 +477,6 @@ class MainVM : ViewModel() {
         )
     }
 
-    /**
-     * FOR LOGIC
-     */
     private suspend fun writeDist(room: AppDB, list: MutableList<DistrictCommon>){
         val distForDbArray = arrayListOf<DistrictForDB>()
         val distDescripted = arrayListOf<DistrictDescripted>()
@@ -563,9 +500,6 @@ class MainVM : ViewModel() {
         room.appDao.insertDistrictDescripted(distDescripted)
     }
 
-    /**
-     * FOR LOGIC
-     */
     private suspend fun writePoints(room: AppDB, list: MutableList<PointCommon>){
         val pointsForDbArray = arrayListOf<PointForDB>()
         val pointsDescripted = arrayListOf<PointDescripted>()
@@ -589,9 +523,6 @@ class MainVM : ViewModel() {
         room.appDao.insertPointsDescripted(pointsDescripted)
     }
 
-    /**
-     * FOR LOGIC
-     */
     private suspend fun readAllPointsFromDb(room: AppDB): List<PointCommon>{
 
         val list = arrayListOf<PointCommon>()
@@ -619,9 +550,6 @@ class MainVM : ViewModel() {
         return list
     }
 
-    /**
-     * FOR LOGIC
-     */
     private suspend fun readAllDistrictsFromDb(room: AppDB): List<DistrictCommon>{
 
         val list = arrayListOf<DistrictCommon>()
@@ -649,9 +577,6 @@ class MainVM : ViewModel() {
         this.navController = navController
     }
 
-    /**
-     * FOR LOGIC
-     */
     fun dispose(){
         mDisposable.dispose()
     }
